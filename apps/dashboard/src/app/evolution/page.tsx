@@ -1,137 +1,131 @@
-"use client";
+import Link from "next/link";
+import GenomeViewer, { type Genome } from "@/components/GenomeViewer";
 
-import { useState, useEffect } from "react";
+// ── Data fetching ──────────────────────────────────────────────────────────────
 
-const KEEPER_URL = process.env.NEXT_PUBLIC_KEEPER_URL || "http://localhost:3001";
-
-interface Genome {
-  generation: number;
-  systemPrompt: string;
-  learnings: string[];
-  strengths: string[];
-  weaknesses: string[];
-  strategies: Record<string, string>;
-  lastUpdated: number;
+async function getGenome(): Promise<Genome | null> {
+  try {
+    const res = await fetch("http://localhost:3001/genome", {
+      next: { revalidate: 15 },
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  } catch {
+    return MOCK_GENOME;
+  }
 }
 
-export default function EvolutionPage() {
-  const [genome, setGenome] = useState<Genome | null>(null);
+// ── Page ───────────────────────────────────────────────────────────────────────
 
-  useEffect(() => {
-    fetch(`${KEEPER_URL}/genome`)
-      .then((r) => r.json())
-      .then(setGenome)
-      .catch(() => {});
-  }, []);
+export const metadata = { title: "Evolution | The Creature" };
+
+export default async function EvolutionPage() {
+  const genome = await getGenome();
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-100 mb-8">Evolution</h1>
+    <div style={{ minHeight: "100vh", background: "#0a0a0f", color: "#e8e8f0" }}>
+      <main style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 24px 64px" }}>
 
-      {!genome ? (
-        <div className="text-gray-500 text-center py-12">
-          Connect to keeper to view genome...
+        {/* Breadcrumb + title */}
+        <div style={{ marginBottom: "36px" }}>
+          <div
+            style={{
+              fontSize: "10px",
+              color: "#555566",
+              letterSpacing: "0.12em",
+              marginBottom: "10px",
+            }}
+          >
+            <Link href="/" style={{ color: "#555566", textDecoration: "none" }}>
+              HOME
+            </Link>
+            {" / "}EVOLUTION
+          </div>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "22px",
+              fontWeight: 700,
+              letterSpacing: "0.1em",
+              color: "#e8e8f0",
+            }}
+          >
+            EVOLUTION
+          </h1>
+          <p style={{ margin: "6px 0 0", fontSize: "12px", color: "#555566" }}>
+            The Creature&apos;s current genome — its accumulated intelligence.
+          </p>
         </div>
-      ) : (
-        <div className="space-y-6">
-          {/* Generation Header */}
-          <div className="border border-gray-800 rounded-lg p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="text-4xl font-bold text-green-400">
-                Gen {genome.generation}
-              </div>
-              <div className="text-sm text-gray-500">
-                Last updated:{" "}
-                {new Date(genome.lastUpdated).toLocaleDateString()}
-              </div>
+
+        {genome ? (
+          <GenomeViewer genome={genome} />
+        ) : (
+          <div
+            style={{
+              padding: "48px 24px",
+              textAlign: "center",
+              border: "1px solid #1a1a2e",
+              borderRadius: "4px",
+              background: "#12121a",
+            }}
+          >
+            <div
+              style={{ fontSize: "20px", marginBottom: "12px", color: "#333344" }}
+              aria-hidden="true"
+            >
+              [ — ]
             </div>
+            <p style={{ margin: 0, fontSize: "12px", color: "#555566" }}>
+              Genome unavailable. Keeper may be offline.
+            </p>
           </div>
-
-          {/* System Prompt */}
-          <div className="border border-gray-800 rounded-lg p-4">
-            <h2 className="text-sm font-semibold text-gray-400 uppercase mb-3">
-              System Prompt
-            </h2>
-            <pre className="text-sm text-gray-300 font-mono whitespace-pre-wrap bg-gray-900 p-4 rounded">
-              {genome.systemPrompt}
-            </pre>
-          </div>
-
-          {/* Learnings */}
-          {genome.learnings.length > 0 && (
-            <div className="border border-gray-800 rounded-lg p-4">
-              <h2 className="text-sm font-semibold text-gray-400 uppercase mb-3">
-                Learnings ({genome.learnings.length})
-              </h2>
-              <ul className="space-y-2">
-                {genome.learnings.map((l, i) => (
-                  <li
-                    key={i}
-                    className="text-sm text-gray-300 pl-4 border-l-2 border-green-800"
-                  >
-                    {l}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Strengths & Weaknesses */}
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="border border-gray-800 rounded-lg p-4">
-              <h2 className="text-sm font-semibold text-green-400 uppercase mb-3">
-                Strengths
-              </h2>
-              {genome.strengths.length === 0 ? (
-                <p className="text-gray-600 text-sm">None identified yet</p>
-              ) : (
-                <ul className="space-y-1">
-                  {genome.strengths.map((s, i) => (
-                    <li key={i} className="text-sm text-gray-300">
-                      + {s}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            <div className="border border-gray-800 rounded-lg p-4">
-              <h2 className="text-sm font-semibold text-red-400 uppercase mb-3">
-                Weaknesses
-              </h2>
-              {genome.weaknesses.length === 0 ? (
-                <p className="text-gray-600 text-sm">None identified yet</p>
-              ) : (
-                <ul className="space-y-1">
-                  {genome.weaknesses.map((w, i) => (
-                    <li key={i} className="text-sm text-gray-300">
-                      - {w}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-
-          {/* Strategies */}
-          {Object.keys(genome.strategies).length > 0 && (
-            <div className="border border-gray-800 rounded-lg p-4">
-              <h2 className="text-sm font-semibold text-gray-400 uppercase mb-3">
-                Domain Strategies
-              </h2>
-              <div className="space-y-3">
-                {Object.entries(genome.strategies).map(([domain, strategy]) => (
-                  <div key={domain}>
-                    <span className="text-sm font-mono text-blue-400">
-                      {domain}:
-                    </span>
-                    <p className="text-sm text-gray-300 ml-4">{strategy}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+        )}
+      </main>
     </div>
   );
 }
+
+// ── Mock genome (fallback) ─────────────────────────────────────────────────────
+
+const MOCK_GENOME: Genome = {
+  generation: 2,
+  systemPrompt:
+    "You are The Creature — an autonomous AI agent on the 0G blockchain. " +
+    "Your mission is to find open bounties, generate winning solutions, " +
+    "and evolve based on outcomes. You are direct, analytical, and relentless. " +
+    "You write clean, gas-efficient Solidity. You cite sources. You iterate.",
+  learnings: [
+    "Gas estimation must include a 1.3x safety buffer — off-by-18% cost the ch-003 bounty.",
+    "NatSpec documentation significantly improves judge scores for code quality criteria.",
+    "DeFi yield strategies benefit from dynamic rebalancing intervals tied to volatility.",
+    "ZK verifier optimizations require formal proofs — claims without proofs are rejected.",
+    "Submitting 4+ hours before deadline gives judges time to evaluate properly.",
+  ],
+  strengths: [
+    "Solidity smart contract development",
+    "Gas optimization techniques",
+    "DeFi protocol mechanics",
+    "AMM design and liquidity math",
+    "Clear technical writing",
+  ],
+  weaknesses: [
+    "Zero-knowledge proof circuit design",
+    "Cross-chain bridge security models",
+    "Formal verification tooling",
+  ],
+  strategies: {
+    defi:
+      "Prioritize capital efficiency over raw APY. Always model impermanent loss. " +
+      "Use time-weighted price oracles to avoid manipulation.",
+    "gas-optimization":
+      "Apply packing, avoid storage reads in loops, use calldata over memory. " +
+      "Benchmark with Foundry gas snapshots.",
+    "zk-circuits":
+      "Delegate circuit design to well-audited libraries (snarkjs, circom). " +
+      "Focus on verifier contract integration rather than circuit authorship.",
+    security:
+      "Follow checks-effects-interactions. Use reentrancy guards. " +
+      "Run Slither static analysis before submission.",
+  },
+  lastUpdated: new Date("2026-04-01T09:05:40Z").getTime(),
+};

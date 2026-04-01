@@ -5,7 +5,7 @@
  * and renders thoughts in a scrolling terminal feed.
  *
  * Automatically reconnects on disconnect (exponential backoff, max 30s).
- * Falls back to mock data when SSE is unreachable.
+ * When SSE is offline, shows "Waiting for keeper..." with no fake messages.
  *
  * Usage:
  *   <LiveThoughtStream sseUrl="http://localhost:3001/thoughts" />
@@ -50,7 +50,7 @@ export default function LiveThoughtStream({
 }: LiveThoughtStreamProps) {
   const [thoughts, setThoughts] = useState<Thought[]>([]);
   const [connected, setConnected] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [offline, setOffline] = useState(false);
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const esRef = useRef<EventSource | null>(null);
@@ -76,7 +76,7 @@ export default function LiveThoughtStream({
     try {
       es = new EventSource(sseUrl);
     } catch {
-      setError("SSE not supported");
+      setOffline(true);
       return;
     }
 
@@ -85,7 +85,7 @@ export default function LiveThoughtStream({
     es.onopen = () => {
       if (!mountedRef.current) return;
       setConnected(true);
-      setError(null);
+      setOffline(false);
       retryDelay.current = RECONNECT_BASE_MS;
     };
 
@@ -117,10 +117,7 @@ export default function LiveThoughtStream({
       es.close();
       esRef.current = null;
       setConnected(false);
-
-      // Show mock data and schedule reconnect
-      setThoughts(MOCK_FALLBACK);
-      setError(`Keeper offline — showing cached data. Retrying in ${Math.round(retryDelay.current / 1000)}s…`);
+      setOffline(true);
 
       retryRef.current = setTimeout(() => {
         retryDelay.current = Math.min(retryDelay.current * 2, RECONNECT_MAX_MS);
@@ -195,15 +192,15 @@ export default function LiveThoughtStream({
           maxHeight,
           borderRadius: 0,
           border: "3px solid #000000",
-          borderTop: error ? "3px solid #FF3B30" : "3px solid #000000",
+          borderTop: offline ? "3px solid #FF3B30" : "3px solid #000000",
         }}
         role="log"
         aria-label="Live agent thought stream"
         aria-live="polite"
         aria-relevant="additions"
       >
-        {/* Error / offline banner */}
-        {error && (
+        {/* Offline banner */}
+        {offline && (
           <div
             style={{
               padding: "8px 14px",
@@ -215,11 +212,11 @@ export default function LiveThoughtStream({
               borderBottom: "3px solid #000000",
             }}
           >
-            {error}
+            Keeper offline — reconnecting...
           </div>
         )}
 
-        {thoughts.length === 0 && !error && (
+        {thoughts.length === 0 && (
           <div
             style={{
               padding: "24px",
@@ -230,7 +227,7 @@ export default function LiveThoughtStream({
             }}
           >
             <span className="animate-blink" aria-hidden="true" style={{ background: "#000000", color: "#000000", display: "inline-block", width: "8px", height: "14px", verticalAlign: "middle" }}>█</span>{" "}
-            Waiting for agent activity...
+            Waiting for keeper...
           </div>
         )}
 
@@ -336,20 +333,3 @@ function formatTimestamp(iso: string): string {
     return iso;
   }
 }
-
-// ── Mock fallback (shown when SSE is unreachable) ──────────────────────────────
-
-const BASE = new Date("2026-04-01T09:00:00Z");
-const t = (s: number) => new Date(BASE.getTime() + s * 1000).toISOString();
-
-const MOCK_FALLBACK: Thought[] = [
-  { id: "f-01", timestamp: t(0),   type: "HUNT",   content: "Scanning bounty platforms for new challenges on 0G network..." },
-  { id: "f-02", timestamp: t(15),  type: "HUNT",   content: "Found 3 open bounties. Evaluating genome fitness for each..." },
-  { id: "f-03", timestamp: t(45),  type: "DRAFT",  content: "Generating v0 submission for DeFi yield optimizer bounty." },
-  { id: "f-04", timestamp: t(110), type: "DRAFT",  content: "Draft complete. Projected 14.2% APY improvement over baseline." },
-  { id: "f-05", timestamp: t(140), type: "NUDGE",  content: "Nudge received — improving code quality and NatSpec comments." },
-  { id: "f-06", timestamp: t(200), type: "SETTLE", content: "Settlement window open for NFT bridge challenge. Awaiting judgment." },
-  { id: "f-07", timestamp: t(310), type: "EVOLVE", content: "Challenge LOST. Gas estimation off by 18%. Updating genome weights." },
-  { id: "f-08", timestamp: t(345), type: "EVOLVE", content: "Generation 1 → 2. Mutation: gas_buffer_multiplier 1.1 → 1.3." },
-  { id: "f-09", timestamp: t(380), type: "HUNT",   content: "Gen 2 cycle begins. Re-scanning with updated genome..." },
-];

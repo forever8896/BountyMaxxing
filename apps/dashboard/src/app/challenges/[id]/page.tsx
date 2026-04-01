@@ -28,7 +28,7 @@ async function getChallenge(id: string): Promise<KeeperChallenge | null> {
     if (!res.ok) return null;
     return res.json();
   } catch {
-    return MOCK_DETAIL[id] ?? null;
+    return null;
   }
 }
 
@@ -40,21 +40,53 @@ export default async function ChallengeDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const raw = await getChallenge(id);
+  const challenge = await getChallenge(id);
 
-  // Fall back to a placeholder if nothing found
-  const challenge = raw ?? {
-    id,
-    bountyUrl: `https://bounties.0g.ai/challenges/${id}`,
-    status: "Pending",
-    requester: "unknown",
-    prize: "—",
-    fee: "—",
-    nudgeCount: 0,
-    createdAt: new Date().toISOString(),
-    description: undefined,
-    title: `Challenge ${id}`,
-  };
+  if (!challenge) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#FFFEF2", color: "#000000" }}>
+        <main style={{ maxWidth: "1100px", margin: "0 auto", padding: "40px 24px 64px" }}>
+          {/* Breadcrumb */}
+          <div
+            style={{
+              fontSize: "10px",
+              color: "#000000",
+              fontWeight: 700,
+              letterSpacing: "0.12em",
+              marginBottom: "24px",
+            }}
+          >
+            <Link href="/" style={{ color: "#000000", textDecoration: "none", fontWeight: 700 }}>HOME</Link>
+            {" / "}
+            <Link href="/challenges" style={{ color: "#000000", textDecoration: "none", fontWeight: 700 }}>CHALLENGES</Link>
+            {" / "}
+            <span style={{ color: "#000000", fontWeight: 800 }}>{id.toUpperCase()}</span>
+          </div>
+
+          <div
+            style={{
+              padding: "48px 24px",
+              textAlign: "center",
+              border: "3px solid #000000",
+              borderRadius: 0,
+              background: "#FFFFFF",
+              boxShadow: "4px 4px 0px #000000",
+            }}
+          >
+            <div
+              style={{ fontSize: "20px", marginBottom: "12px", color: "#000000", fontWeight: 800 }}
+              aria-hidden="true"
+            >
+              [ — ]
+            </div>
+            <p style={{ margin: 0, fontSize: "12px", color: "#000000", fontWeight: 600 }}>
+              Challenge not found. Keeper may be offline.
+            </p>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   const title = challenge.title ?? challenge.bountyUrl.split("/").pop() ?? id;
   const status = (challenge.status as ChallengeStatus) ?? "Pending";
@@ -362,34 +394,3 @@ function Row({
     </div>
   );
 }
-
-// ── Mock fallback ──────────────────────────────────────────────────────────────
-
-const MOCK_DETAIL: Record<string, KeeperChallenge> = {
-  "ch-001": {
-    id: "ch-001",
-    title: "DeFi Yield Optimizer — Maximum APY Compounding Strategy",
-    status: "Working",
-    bountyUrl: "https://bounties.0g.ai/challenges/defi-yield-optimizer-v2",
-    prize: "500 OG",
-    fee: "5 OG",
-    nudgeCount: 2,
-    requester: "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b",
-    createdAt: "2026-03-28T10:00:00Z",
-    description:
-      "Design a yield strategy contract that maximizes APY through dynamic rebalancing across 0G liquidity pools.",
-  },
-  "ch-002": {
-    id: "ch-002",
-    title: "NFT Bridge Gas Cost Reduction — Cross-Chain Transfer Optimization",
-    status: "Submitted",
-    bountyUrl: "https://bounties.0g.ai/challenges/nft-bridge-gas-v1",
-    prize: "300 OG",
-    fee: "3 OG",
-    nudgeCount: 1,
-    requester: "0x9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e",
-    createdAt: "2026-03-25T14:30:00Z",
-    description:
-      "Reduce gas costs for NFT cross-chain transfers by at least 30% compared to current bridge implementation.",
-  },
-};

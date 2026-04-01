@@ -1,48 +1,79 @@
 import Image from "next/image";
-import ThoughtStream, { MOCK_THOUGHTS } from "@/components/ThoughtStream";
+import LiveThoughtStream from "@/components/LiveThoughtStream";
 import ChallengeCard, { type Challenge } from "@/components/ChallengeCard";
 import StatusBadge from "@/components/StatusBadge";
+import type { ChallengeStatus } from "@/components/StatusBadge";
 
-// ── Mock data ─────────────────────────────────────────────────────────────────
+// ── Types ──────────────────────────────────────────────────────────────────────
 
-const MOCK_CHALLENGES: Challenge[] = [
-  {
-    id: "ch-001",
-    title: "DeFi Yield Optimizer — Maximum APY Compounding Strategy",
-    status: "Working",
-    bountyUrl: "https://bounties.0g.ai/challenges/defi-yield-optimizer-v2",
-    prize: "500 OG",
-    fee: "5 OG",
-    nudgeCount: 2,
-    createdAt: "2026-03-28T10:00:00Z",
-    description:
-      "Design a yield strategy contract that maximizes APY through dynamic rebalancing across 0G liquidity pools.",
-  },
-  {
-    id: "ch-002",
-    title: "NFT Bridge Gas Cost Reduction — Cross-Chain Transfer Optimization",
-    status: "Submitted",
-    bountyUrl: "https://bounties.0g.ai/challenges/nft-bridge-gas-v1",
-    prize: "300 OG",
-    fee: "3 OG",
-    nudgeCount: 1,
-    createdAt: "2026-03-25T14:30:00Z",
-    description:
-      "Reduce gas costs for NFT cross-chain transfers by at least 30% compared to current bridge implementation.",
-  },
-  {
-    id: "ch-003",
-    title: "ZK Proof Verifier — On-Chain Groth16 Optimization",
-    status: "Pending",
-    bountyUrl: "https://bounties.0g.ai/challenges/zk-verifier-groth16",
-    prize: "1000 OG",
-    fee: "10 OG",
-    nudgeCount: 0,
-    createdAt: "2026-04-01T08:00:00Z",
-    description:
-      "Optimize the on-chain Groth16 verifier for lower verification cost without compromising security.",
-  },
-];
+interface KeeperHealth {
+  status: string;
+  generation: number;
+  activeHunts: number;
+  clanconomyAgent: string;
+}
+
+interface KeeperChallenge {
+  id: string;
+  bountyUrl: string;
+  status: string;
+  requester?: string;
+  prize?: string;
+  prizeAmount?: string;
+  fee?: string;
+  nudgeCount?: number;
+  createdAt?: string | number;
+  description?: string;
+  title?: string;
+}
+
+// ── Data fetching ──────────────────────────────────────────────────────────────
+
+async function getHealth(): Promise<KeeperHealth | null> {
+  try {
+    const res = await fetch("http://localhost:3001/health", {
+      next: { revalidate: 10 },
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
+
+async function getChallenges(): Promise<Challenge[]> {
+  try {
+    const res = await fetch("http://localhost:3001/challenges", {
+      next: { revalidate: 10 },
+    });
+    if (!res.ok) return [];
+    const data: KeeperChallenge[] = await res.json();
+    return data.map(normalizeChallenge);
+  } catch {
+    return [];
+  }
+}
+
+function normalizeChallenge(raw: KeeperChallenge): Challenge {
+  const title = raw.title ?? raw.bountyUrl.split("/").pop() ?? raw.id;
+  const createdAt =
+    typeof raw.createdAt === "number"
+      ? new Date(raw.createdAt).toISOString()
+      : raw.createdAt ?? new Date().toISOString();
+  return {
+    id: String(raw.id),
+    title,
+    status: (raw.status as ChallengeStatus) ?? "Pending",
+    bountyUrl: raw.bountyUrl,
+    prize: raw.prize ?? raw.prizeAmount ?? "—",
+    fee: raw.fee ?? "—",
+    nudgeCount: raw.nudgeCount ?? 0,
+    createdAt,
+    description: raw.description,
+  };
+}
+
+// ── Constants ──────────────────────────────────────────────────────────────────
 
 const LOOP_PHASES = [
   { id: "hunt", label: "HUNT", desc: "Find bounties", active: true },
@@ -55,7 +86,15 @@ const LOOP_PHASES = [
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [health, challenges] = await Promise.all([getHealth(), getChallenges()]);
+
+  const generation = health?.generation ?? "—";
+  const activeHunts = health?.activeHunts ?? 0;
+  const won = challenges.filter((c) => c.status === "Won").length;
+  const totalNudges = challenges.reduce((sum, c) => sum + (c.nudgeCount ?? 0), 0);
+  const keeperStatus = health ? "HUNTING" : "OFFLINE";
+
   return (
     <div
       style={{
@@ -94,7 +133,7 @@ export default function HomePage() {
               boxShadow: "4px 4px 0px #000000",
             }}
           >
-            GENERATION 2 — ACTIVE
+            {health ? `GENERATION ${generation} — ACTIVE` : "KEEPER OFFLINE"}
           </div>
 
           {/* Main title */}
@@ -161,10 +200,10 @@ export default function HomePage() {
             }}
           >
             {[
-              { label: "GEN", value: "2" },
-              { label: "WINS", value: "1" },
-              { label: "NUDGES", value: "3" },
-              { label: "STATUS", value: "HUNTING", accent: "#BFFF00" },
+              { label: "GEN", value: String(generation) },
+              { label: "WINS", value: String(won) },
+              { label: "NUDGES", value: String(totalNudges) },
+              { label: "STATUS", value: keeperStatus, accent: health ? "#BFFF00" : undefined },
             ].map((stat, idx) => (
               <div
                 key={stat.label}
@@ -284,7 +323,10 @@ export default function HomePage() {
               subtitle="Real-time agent cognition"
               trailing={<BlinkingCursor />}
             />
-            <ThoughtStream thoughts={MOCK_THOUGHTS} maxHeight="480px" />
+            <LiveThoughtStream
+              sseUrl="http://localhost:3001/thoughts"
+              maxHeight="480px"
+            />
           </section>
 
           {/* Active challenges */}
@@ -304,15 +346,33 @@ export default function HomePage() {
                     background: "#FFFFFF",
                   }}
                 >
-                  {MOCK_CHALLENGES.length} total
+                  {challenges.length} total
                 </span>
               }
             />
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              {MOCK_CHALLENGES.map((ch) => (
-                <ChallengeCard key={ch.id} challenge={ch} />
-              ))}
-            </div>
+            {challenges.length === 0 ? (
+              <div
+                style={{
+                  padding: "32px 24px",
+                  textAlign: "center",
+                  border: "3px solid #000000",
+                  borderRadius: 0,
+                  background: "#FFFFFF",
+                  boxShadow: "4px 4px 0px #000000",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  color: "#000000",
+                }}
+              >
+                {health ? "No active challenges." : "Keeper offline — no data available."}
+              </div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                {challenges.map((ch) => (
+                  <ChallengeCard key={ch.id} challenge={ch} />
+                ))}
+              </div>
+            )}
           </section>
         </div>
 
@@ -332,14 +392,12 @@ export default function HomePage() {
             }}
           >
             {[
-              { label: "TREASURY BALANCE", value: "482 OG", accent: "#BFFF00" },
-              { label: "TOTAL EARNED", value: "500 OG", accent: "#BFFF00" },
-              { label: "TOTAL SPENT", value: "18 OG", accent: null },
-              { label: "WIN RATE", value: "50%", accent: "#BFFF00" },
-              { label: "CHALLENGES", value: "4", accent: null },
-              { label: "GENERATION", value: "GEN 2", accent: "#5856D6" },
-              { label: "TOTAL NUDGERS", value: "3", accent: null },
-              { label: "NUDGE REVENUE", value: "0.3 OG", accent: "#BFFF00" },
+              { label: "ACTIVE HUNTS", value: health ? String(activeHunts) : "—", accent: null },
+              { label: "CHALLENGES", value: health ? String(challenges.length) : "—", accent: null },
+              { label: "WON", value: health ? String(won) : "—", accent: won > 0 ? "#BFFF00" : null },
+              { label: "TOTAL NUDGES", value: health ? String(totalNudges) : "—", accent: null },
+              { label: "GENERATION", value: health ? `GEN ${generation}` : "—", accent: health ? "#5856D6" : null },
+              { label: "STATUS", value: keeperStatus, accent: health ? "#BFFF00" : null },
             ].map((stat, idx, arr) => (
               <div
                 key={stat.label}
@@ -348,7 +406,7 @@ export default function HomePage() {
                   background: "#FFFFFF",
                   textAlign: "center",
                   borderRight: idx < arr.length - 1 ? "3px solid #000000" : undefined,
-                  borderBottom: idx < arr.length - 4 ? "3px solid #000000" : undefined,
+                  borderBottom: idx < arr.length - 3 ? "3px solid #000000" : undefined,
                 }}
               >
                 <div

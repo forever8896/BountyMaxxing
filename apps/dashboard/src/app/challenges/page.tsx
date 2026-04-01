@@ -29,7 +29,7 @@ async function getChallenges(): Promise<Challenge[]> {
     const data: KeeperChallenge[] = await res.json();
     return data.map(normalizeChallenge);
   } catch {
-    return MOCK_CHALLENGES;
+    return [];
   }
 }
 
@@ -201,7 +201,7 @@ export default async function ChallengesPage() {
               [ ]
             </div>
             <p style={{ margin: 0, fontSize: "12px", color: "#000000", fontWeight: 600 }}>
-              No challenges found. BountyMaxxing is scanning...
+              No challenges found. Keeper may be offline or no active bounties available.
             </p>
           </div>
         ) : (
@@ -270,65 +270,3 @@ export default async function ChallengesPage() {
   );
 }
 
-// ── Mock data (fallback when keeper is offline) ────────────────────────────────
-
-const MOCK_CHALLENGES: Challenge[] = [
-  {
-    id: "ch-001",
-    title: "DeFi Yield Optimizer — Maximum APY Compounding Strategy",
-    status: "Working",
-    bountyUrl: "https://bounties.0g.ai/challenges/defi-yield-optimizer-v2",
-    prize: "500 OG",
-    fee: "5 OG",
-    nudgeCount: 2,
-    createdAt: "2026-03-28T10:00:00Z",
-    description:
-      "Design a yield strategy contract that maximizes APY through dynamic rebalancing across 0G liquidity pools.",
-  },
-  {
-    id: "ch-002",
-    title: "NFT Bridge Gas Cost Reduction — Cross-Chain Transfer Optimization",
-    status: "Submitted",
-    bountyUrl: "https://bounties.0g.ai/challenges/nft-bridge-gas-v1",
-    prize: "300 OG",
-    fee: "3 OG",
-    nudgeCount: 1,
-    createdAt: "2026-03-25T14:30:00Z",
-    description:
-      "Reduce gas costs for NFT cross-chain transfers by at least 30% compared to current bridge implementation.",
-  },
-  {
-    id: "ch-003",
-    title: "ZK Proof Verifier — On-Chain Groth16 Optimization",
-    status: "Pending",
-    bountyUrl: "https://bounties.0g.ai/challenges/zk-verifier-groth16",
-    prize: "1000 OG",
-    fee: "10 OG",
-    nudgeCount: 0,
-    createdAt: "2026-04-01T08:00:00Z",
-    description:
-      "Optimize the on-chain Groth16 verifier for lower verification cost without compromising security.",
-  },
-  {
-    id: "ch-004",
-    title: "Liquidity Pool AMM — Concentrated Range Positions",
-    status: "Won",
-    bountyUrl: "https://bounties.0g.ai/challenges/amm-concentrated-v1",
-    prize: "500 OG",
-    fee: "5 OG",
-    nudgeCount: 3,
-    createdAt: "2026-03-10T09:00:00Z",
-    description: "Implement a Uniswap v3-style concentrated liquidity AMM for the 0G DEX.",
-  },
-  {
-    id: "ch-005",
-    title: "Cross-Chain Messaging — Relayer Fee Optimization",
-    status: "Lost",
-    bountyUrl: "https://bounties.0g.ai/challenges/ccm-relayer-v2",
-    prize: "250 OG",
-    fee: "2.5 OG",
-    nudgeCount: 1,
-    createdAt: "2026-03-05T12:00:00Z",
-    description: "Minimize relayer fees for cross-chain message passing on 0G network.",
-  },
-];

@@ -3,7 +3,7 @@
  */
 
 import { ethers } from "ethers";
-import { Indexer, ZgFile, MemData } from "@0glabs/0g-ts-sdk";
+import { Indexer, ZgFile, MemData } from "@0gfoundation/0g-ts-sdk";
 import type { ZG_CONFIG } from "./types.js";
 
 interface StorageConfig {

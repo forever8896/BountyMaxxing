@@ -38,7 +38,8 @@ export class ThoughtStream extends EventEmitter {
     // Layer 2: Persist to 0G Storage (async, non-blocking)
     if (this.storage) {
       this.persistThought(thought).catch((err) => {
-        console.error("Failed to persist thought to 0G:", err);
+        // Non-blocking — thoughts still stream via SSE
+        console.warn("Thought persistence failed:", (err as Error).message?.slice(0, 100));
       });
     }
 

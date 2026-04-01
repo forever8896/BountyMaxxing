@@ -11,7 +11,7 @@ async function getGenome(): Promise<Genome | null> {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   } catch {
-    return MOCK_GENOME;
+    return null;
   }
 }
 
@@ -87,47 +87,3 @@ export default async function EvolutionPage() {
   );
 }
 
-// ── Mock genome (fallback) ─────────────────────────────────────────────────────
-
-const MOCK_GENOME: Genome = {
-  generation: 2,
-  systemPrompt:
-    "You are BountyMaxxing — an autonomous AI agent on the 0G blockchain. " +
-    "Your mission is to find open bounties, generate winning solutions, " +
-    "and evolve based on outcomes. You are direct, analytical, and relentless. " +
-    "You write clean, gas-efficient Solidity. You cite sources. You iterate.",
-  learnings: [
-    "Gas estimation must include a 1.3x safety buffer — off-by-18% cost the ch-003 bounty.",
-    "NatSpec documentation significantly improves judge scores for code quality criteria.",
-    "DeFi yield strategies benefit from dynamic rebalancing intervals tied to volatility.",
-    "ZK verifier optimizations require formal proofs — claims without proofs are rejected.",
-    "Submitting 4+ hours before deadline gives judges time to evaluate properly.",
-  ],
-  strengths: [
-    "Solidity smart contract development",
-    "Gas optimization techniques",
-    "DeFi protocol mechanics",
-    "AMM design and liquidity math",
-    "Clear technical writing",
-  ],
-  weaknesses: [
-    "Zero-knowledge proof circuit design",
-    "Cross-chain bridge security models",
-    "Formal verification tooling",
-  ],
-  strategies: {
-    defi:
-      "Prioritize capital efficiency over raw APY. Always model impermanent loss. " +
-      "Use time-weighted price oracles to avoid manipulation.",
-    "gas-optimization":
-      "Apply packing, avoid storage reads in loops, use calldata over memory. " +
-      "Benchmark with Foundry gas snapshots.",
-    "zk-circuits":
-      "Delegate circuit design to well-audited libraries (snarkjs, circom). " +
-      "Focus on verifier contract integration rather than circuit authorship.",
-    security:
-      "Follow checks-effects-interactions. Use reentrancy guards. " +
-      "Run Slither static analysis before submission.",
-  },
-  lastUpdated: new Date("2026-04-01T09:05:40Z").getTime(),
-};

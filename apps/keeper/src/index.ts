@@ -101,15 +101,31 @@ async function main() {
     const url = new URL(req.url || "/", `http://localhost:${config.port}`);
     const pathname = url.pathname;
 
-    // Health
+    // Health + balance
     if (pathname === "/health") {
       const hunts = huntLoop.getActiveHunts();
+      let walletBalance = "—";
+      let computeBalance = "—";
+      try {
+        const { ethers: eth } = await import("ethers");
+        const provider = new eth.JsonRpcProvider(config.rpcUrl);
+        const bal = await provider.getBalance(clan.address);
+        walletBalance = eth.formatEther(bal) + " OG";
+
+        const computeBal = await compute.getBalance?.();
+        if (computeBal) computeBalance = computeBal;
+      } catch { /* non-blocking */ }
+
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify({
         status: "alive",
         generation: genome.load().generation,
         activeHunts: hunts.length,
         clanconomyAgent: clan.address,
+        walletBalance,
+        computeBalance,
+        network: config.network,
+        contracts: config.contracts,
       }));
       return;
     }

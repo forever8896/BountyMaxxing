@@ -270,6 +270,20 @@ Respond with JSON:
   }
 
   /**
+   * Get compute ledger balance as a human-readable string.
+   */
+  async getBalance(): Promise<string | null> {
+    if (!this.initialized) return null;
+    try {
+      const ledger = await this.broker.ledger.getLedger();
+      const available = ledger.availableBalance?.toString() || "0";
+      return ethers.formatEther(available) + " OG (compute)";
+    } catch {
+      return null;
+    }
+  }
+
+  /**
    * Evolve the genome based on challenge outcome.
    */
   async evolve(

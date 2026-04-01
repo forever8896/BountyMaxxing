@@ -3,6 +3,12 @@
  * Watches 0G Chain for events and orchestrates AI work.
  */
 
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
+import path from "path";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 import http from "http";
 import { CreatureCompute, CreatureStorage, CreatureChain, ThoughtStream, GenomeStore } from "@creature/integration";
 import { loadConfig } from "./config.js";

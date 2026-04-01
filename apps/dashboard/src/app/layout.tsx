@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en" className={jetbrainsMono.variable}>
       <body
         style={{
-          backgroundColor: "#0a0a0f",
+          backgroundColor: "#FFFEF2",
           fontFamily: "var(--font-jetbrains-mono), 'JetBrains Mono', monospace",
           margin: 0,
         }}
@@ -52,7 +52,7 @@ function Nav() {
   return (
     <header
       style={{
-        borderBottom: "1px solid #1a1a2e",
+        borderBottom: "3px solid #000000",
         padding: "0 24px",
         height: "52px",
         display: "flex",
@@ -60,8 +60,7 @@ function Nav() {
         justifyContent: "space-between",
         position: "sticky",
         top: 0,
-        background: "rgba(10,10,15,0.97)",
-        backdropFilter: "blur(8px)",
+        background: "#FFFFFF",
         zIndex: 100,
       }}
     >
@@ -73,19 +72,21 @@ function Nav() {
         <span
           style={{
             fontSize: "14px",
-            fontWeight: 700,
+            fontWeight: 800,
             letterSpacing: "0.15em",
-            color: "#00ff88",
+            color: "#000000",
           }}
-          className="glow-text animate-flicker"
         >
           THE CREATURE
         </span>
         <span
           style={{
-            fontSize: "10px",
-            color: "#555566",
+            fontSize: "12px",
+            color: "#BFFF00",
             letterSpacing: "0.08em",
+            fontWeight: 800,
+            background: "#000000",
+            padding: "1px 5px",
           }}
         >
           / 0G
@@ -112,12 +113,13 @@ function Nav() {
                   display: "inline-block",
                   padding: "6px 12px",
                   fontSize: "11px",
-                  fontWeight: 600,
+                  fontWeight: 700,
                   letterSpacing: "0.1em",
-                  color: "#888899",
+                  color: "#000000",
                   textDecoration: "none",
-                  borderRadius: "2px",
-                  transition: "color 0.15s, background 0.15s",
+                  borderRadius: 0,
+                  border: "2px solid transparent",
+                  transition: "background 0.1s, border-color 0.1s",
                 }}
                 className="nav-link"
               >
@@ -135,21 +137,21 @@ function Nav() {
                 gap: "6px",
                 padding: "4px 10px",
                 fontSize: "10px",
-                color: "#00cc6a",
-                border: "1px solid rgba(0,255,136,0.2)",
-                borderRadius: "2px",
-                background: "rgba(0,255,136,0.04)",
+                fontWeight: 800,
+                color: "#000000",
+                border: "3px solid #000000",
+                borderRadius: 0,
+                background: "#BFFF00",
                 letterSpacing: "0.08em",
               }}
             >
               <span
                 style={{
-                  width: "6px",
-                  height: "6px",
-                  borderRadius: "50%",
-                  background: "#00ff88",
+                  width: "7px",
+                  height: "7px",
+                  borderRadius: 0,
+                  background: "#000000",
                   display: "inline-block",
-                  animation: "pulse-glow 2.5s ease-in-out infinite",
                   flexShrink: 0,
                 }}
                 aria-hidden="true"

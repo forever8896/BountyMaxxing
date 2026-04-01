@@ -59,8 +59,8 @@ export default function HomePage() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#0a0a0f",
-        color: "#e8e8f0",
+        background: "#FFFEF2",
+        color: "#000000",
         fontFamily: "inherit",
       }}
     >
@@ -75,22 +75,6 @@ export default function HomePage() {
             position: "relative",
           }}
         >
-          {/* Background glow blob */}
-          <div
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              top: "40px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: "600px",
-              height: "300px",
-              background:
-                "radial-gradient(ellipse at center, rgba(0,255,136,0.06) 0%, transparent 70%)",
-              pointerEvents: "none",
-            }}
-          />
-
           {/* Generation pill */}
           <div
             style={{
@@ -99,35 +83,26 @@ export default function HomePage() {
               gap: "8px",
               padding: "4px 14px",
               marginBottom: "24px",
-              border: "1px solid rgba(0,255,136,0.2)",
-              borderRadius: "2px",
-              background: "rgba(0,255,136,0.04)",
+              border: "3px solid #000000",
+              borderRadius: 0,
+              background: "#BFFF00",
               fontSize: "11px",
-              color: "#00cc6a",
+              fontWeight: 800,
+              color: "#000000",
               letterSpacing: "0.1em",
+              boxShadow: "4px 4px 0px #000000",
             }}
           >
-            <span
-              style={{
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                background: "#00ff88",
-                display: "inline-block",
-                animation: "pulse-glow 2.5s ease-in-out infinite",
-              }}
-            />
             GENERATION 2 — ACTIVE
           </div>
 
           {/* Main title */}
           <h1
-            className="glow-text"
             style={{
               fontSize: "clamp(36px, 8vw, 80px)",
               fontWeight: 800,
               letterSpacing: "0.12em",
-              color: "#00ff88",
+              color: "#000000",
               margin: "0 0 16px",
               lineHeight: 1,
             }}
@@ -138,13 +113,14 @@ export default function HomePage() {
           <p
             style={{
               fontSize: "clamp(13px, 2.5vw, 16px)",
-              color: "#888899",
+              color: "#000000",
               margin: "0 0 40px",
               letterSpacing: "0.06em",
+              fontWeight: 600,
             }}
           >
             Self-evolving autonomous bounty solver on{" "}
-            <span style={{ color: "#00ff88" }}>0G</span>
+            <span style={{ color: "#000000", background: "#BFFF00", padding: "0 4px" }}>0G</span>
           </p>
 
           {/* Stats row */}
@@ -154,37 +130,40 @@ export default function HomePage() {
               flexWrap: "wrap",
               justifyContent: "center",
               gap: "0",
-              border: "1px solid #1a1a2e",
-              borderRadius: "4px",
+              border: "3px solid #000000",
+              borderRadius: 0,
               overflow: "hidden",
               fontSize: "12px",
               letterSpacing: "0.08em",
+              boxShadow: "6px 6px 0px #000000",
             }}
           >
             {[
               { label: "GEN", value: "2" },
               { label: "WINS", value: "1" },
               { label: "NUDGES", value: "3" },
-              { label: "STATUS", value: "HUNTING", accent: "#00ff88" },
+              { label: "STATUS", value: "HUNTING", accent: "#BFFF00" },
             ].map((stat, idx) => (
               <div
                 key={stat.label}
                 style={{
                   padding: "12px 24px",
-                  borderRight: idx < 3 ? "1px solid #1a1a2e" : undefined,
-                  background: "#12121a",
+                  borderRight: idx < 3 ? "3px solid #000000" : undefined,
+                  background: "#FFFFFF",
                   textAlign: "center",
                 }}
               >
                 <div
-                  style={{ fontSize: "9px", color: "#555566", marginBottom: "4px" }}
+                  style={{ fontSize: "9px", color: "#000000", marginBottom: "4px", fontWeight: 700, letterSpacing: "0.1em" }}
                 >
                   {stat.label}
                 </div>
                 <div
                   style={{
-                    fontWeight: 700,
-                    color: stat.accent ?? "#e8e8f0",
+                    fontWeight: 800,
+                    color: "#000000",
+                    background: stat.accent ?? "transparent",
+                    padding: stat.accent ? "1px 4px" : undefined,
                   }}
                 >
                   {stat.value}
@@ -203,9 +182,10 @@ export default function HomePage() {
               display: "flex",
               flexWrap: "wrap",
               gap: "0",
-              border: "1px solid #1a1a2e",
-              borderRadius: "4px",
+              border: "3px solid #000000",
+              borderRadius: 0,
               overflow: "hidden",
+              boxShadow: "4px 4px 0px #000000",
             }}
           >
             {LOOP_PHASES.map((phase, idx) => {
@@ -217,16 +197,12 @@ export default function HomePage() {
                     flex: "1 1 120px",
                     padding: "16px 12px",
                     textAlign: "center",
-                    background: isActive ? "rgba(0,255,136,0.06)" : "#12121a",
+                    background: isActive ? "#BFFF00" : "#FFFFFF",
                     borderRight:
                       idx < LOOP_PHASES.length - 1
-                        ? "1px solid #1a1a2e"
+                        ? "3px solid #000000"
                         : undefined,
-                    borderBottom: isActive
-                      ? "2px solid #00ff88"
-                      : "2px solid transparent",
                     position: "relative",
-                    transition: "background 0.2s",
                   }}
                   role="listitem"
                   aria-current={isActive ? "step" : undefined}
@@ -237,45 +213,31 @@ export default function HomePage() {
                       aria-hidden="true"
                       style={{
                         position: "absolute",
-                        right: "-8px",
+                        right: "-10px",
                         top: "50%",
                         transform: "translateY(-50%)",
-                        color: "#333344",
-                        fontSize: "12px",
+                        color: "#000000",
+                        fontSize: "14px",
+                        fontWeight: 900,
                         zIndex: 1,
                       }}
                     >
-                      ›
+                      →
                     </span>
                   )}
 
                   <div
                     style={{
                       fontSize: "11px",
-                      fontWeight: 700,
+                      fontWeight: 800,
                       letterSpacing: "0.1em",
-                      color: isActive ? "#00ff88" : "#555566",
+                      color: "#000000",
                       marginBottom: "4px",
                     }}
                   >
-                    {isActive && (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "6px",
-                          height: "6px",
-                          borderRadius: "50%",
-                          background: "#00ff88",
-                          marginRight: "6px",
-                          verticalAlign: "middle",
-                          animation: "pulse-glow 2s ease-in-out infinite",
-                        }}
-                        aria-hidden="true"
-                      />
-                    )}
                     {phase.label}
                   </div>
-                  <div style={{ fontSize: "10px", color: "#444455" }}>
+                  <div style={{ fontSize: "10px", color: "#000000", fontWeight: 500 }}>
                     {phase.desc}
                   </div>
                 </div>
@@ -312,17 +274,19 @@ export default function HomePage() {
                 <span
                   style={{
                     fontSize: "11px",
-                    color: "#888899",
+                    color: "#000000",
+                    fontWeight: 700,
                     padding: "2px 8px",
-                    border: "1px solid #1a1a2e",
-                    borderRadius: "2px",
+                    border: "3px solid #000000",
+                    borderRadius: 0,
+                    background: "#FFFFFF",
                   }}
                 >
                   {MOCK_CHALLENGES.length} total
                 </span>
               }
             />
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               {MOCK_CHALLENGES.map((ch) => (
                 <ChallengeCard key={ch.id} challenge={ch} />
               ))}
@@ -338,36 +302,38 @@ export default function HomePage() {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-              gap: "1px",
-              background: "#1a1a2e",
-              border: "1px solid #1a1a2e",
-              borderRadius: "4px",
+              gap: "0",
+              border: "3px solid #000000",
+              borderRadius: 0,
               overflow: "hidden",
+              boxShadow: "4px 4px 0px #000000",
             }}
           >
             {[
-              { label: "TREASURY BALANCE", value: "482 OG", accent: "#00ff88" },
-              { label: "TOTAL EARNED", value: "500 OG", accent: "#00cc6a" },
-              { label: "TOTAL SPENT", value: "18 OG" },
-              { label: "WIN RATE", value: "50%", accent: "#ffcc00" },
-              { label: "CHALLENGES", value: "4" },
-              { label: "GENERATION", value: "GEN 2", accent: "#bb66ff" },
-              { label: "TOTAL NUDGERS", value: "3" },
-              { label: "NUDGE REVENUE", value: "0.3 OG", accent: "#00ff88" },
-            ].map((stat) => (
+              { label: "TREASURY BALANCE", value: "482 OG", accent: "#BFFF00" },
+              { label: "TOTAL EARNED", value: "500 OG", accent: "#BFFF00" },
+              { label: "TOTAL SPENT", value: "18 OG", accent: null },
+              { label: "WIN RATE", value: "50%", accent: "#BFFF00" },
+              { label: "CHALLENGES", value: "4", accent: null },
+              { label: "GENERATION", value: "GEN 2", accent: "#5856D6" },
+              { label: "TOTAL NUDGERS", value: "3", accent: null },
+              { label: "NUDGE REVENUE", value: "0.3 OG", accent: "#BFFF00" },
+            ].map((stat, idx, arr) => (
               <div
                 key={stat.label}
                 style={{
                   padding: "20px 16px",
-                  background: "#12121a",
+                  background: "#FFFFFF",
                   textAlign: "center",
-                  transition: "background 0.2s",
+                  borderRight: idx < arr.length - 1 ? "3px solid #000000" : undefined,
+                  borderBottom: idx < arr.length - 4 ? "3px solid #000000" : undefined,
                 }}
               >
                 <div
                   style={{
                     fontSize: "9px",
-                    color: "#555566",
+                    color: "#000000",
+                    fontWeight: 700,
                     letterSpacing: "0.1em",
                     marginBottom: "8px",
                   }}
@@ -377,9 +343,12 @@ export default function HomePage() {
                 <div
                   style={{
                     fontSize: "20px",
-                    fontWeight: 700,
-                    color: stat.accent ?? "#888899",
+                    fontWeight: 800,
+                    color: "#000000",
                     letterSpacing: "0.04em",
+                    background: stat.accent ?? "transparent",
+                    display: "inline-block",
+                    padding: stat.accent ? "0 6px" : undefined,
                   }}
                 >
                   {stat.value}
@@ -398,9 +367,10 @@ export default function HomePage() {
               flexWrap: "wrap",
               gap: "10px",
               padding: "20px",
-              background: "#12121a",
-              border: "1px solid #1a1a2e",
-              borderRadius: "4px",
+              background: "#FFFFFF",
+              border: "3px solid #000000",
+              borderRadius: 0,
+              boxShadow: "4px 4px 0px #000000",
             }}
           >
             {(
@@ -423,19 +393,21 @@ export default function HomePage() {
       {/* ── Footer ─────────────────────────────────────────────────────────── */}
       <footer
         style={{
-          borderTop: "1px solid #1a1a2e",
+          borderTop: "3px solid #000000",
           padding: "20px 24px",
           textAlign: "center",
           fontSize: "11px",
-          color: "#444455",
+          color: "#000000",
           letterSpacing: "0.06em",
+          fontWeight: 600,
+          background: "#FFFFFF",
         }}
       >
         <span>
           THE CREATURE v0.1.0 — running on{" "}
-          <span style={{ color: "#00ff88" }}>0G NETWORK</span>
+          <span style={{ background: "#BFFF00", color: "#000000", padding: "0 4px", fontWeight: 800 }}>0G NETWORK</span>
         </span>
-        <span style={{ margin: "0 12px", opacity: 0.3 }}>|</span>
+        <span style={{ margin: "0 12px", fontWeight: 300 }}>|</span>
         <span>autonomous · self-evolving · unstoppable</span>
       </footer>
 
@@ -470,7 +442,7 @@ function SectionHeader({
         justifyContent: "space-between",
         marginBottom: "16px",
         paddingBottom: "10px",
-        borderBottom: "1px solid #1a1a2e",
+        borderBottom: "3px solid #000000",
         flexWrap: "wrap",
         gap: "8px",
       }}
@@ -479,16 +451,16 @@ function SectionHeader({
         <h2
           style={{
             margin: 0,
-            fontSize: "11px",
-            fontWeight: 700,
+            fontSize: "12px",
+            fontWeight: 800,
             letterSpacing: "0.15em",
-            color: "#e8e8f0",
+            color: "#000000",
           }}
         >
           {title}
         </h2>
         {subtitle && (
-          <span style={{ fontSize: "10px", color: "#444455" }}>{subtitle}</span>
+          <span style={{ fontSize: "10px", color: "#000000", fontWeight: 500 }}>{subtitle}</span>
         )}
       </div>
       {trailing}
@@ -505,10 +477,9 @@ function BlinkingCursor() {
         display: "inline-block",
         width: "8px",
         height: "14px",
-        background: "#00ff88",
+        background: "#000000",
         verticalAlign: "middle",
         marginLeft: "4px",
-        opacity: 0.8,
       }}
     />
   );

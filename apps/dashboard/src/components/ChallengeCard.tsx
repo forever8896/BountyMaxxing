@@ -100,8 +100,6 @@ export default function ChallengeCard({ challenge }: ChallengeCardProps) {
           opacity: 0.8,
           transition: "opacity 0.15s",
         }}
-        onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
-        onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.8")}
         title={bountyUrl}
         aria-label={`View bounty: ${title}`}
       >

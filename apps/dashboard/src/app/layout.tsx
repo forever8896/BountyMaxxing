@@ -119,16 +119,7 @@ function Nav() {
                   borderRadius: "2px",
                   transition: "color 0.15s, background 0.15s",
                 }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.color = "#00ff88";
-                  el.style.background = "rgba(0,255,136,0.06)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.color = "#888899";
-                  el.style.background = "transparent";
-                }}
+                className="nav-link"
               >
                 {link.label}
               </Link>

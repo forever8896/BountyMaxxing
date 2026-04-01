@@ -363,14 +363,6 @@ export default function HomePage() {
                   textAlign: "center",
                   transition: "background 0.2s",
                 }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.background =
-                    "#161620";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.background =
-                    "#12121a";
-                }}
               >
                 <div
                   style={{

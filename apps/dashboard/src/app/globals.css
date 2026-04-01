@@ -43,6 +43,12 @@ body {
   overflow-x: hidden;
 }
 
+/* ── Nav Link Hover ──────────────────────────────────────────────────── */
+.nav-link:hover {
+  color: #00ff88 !important;
+  background: rgba(0, 255, 136, 0.06) !important;
+}
+
 /* ── Custom Scrollbar ────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;

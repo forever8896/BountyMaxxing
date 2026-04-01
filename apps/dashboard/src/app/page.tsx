@@ -1,7 +1,6 @@
 import ThoughtStream, { MOCK_THOUGHTS } from "@/components/ThoughtStream";
 import ChallengeCard, { type Challenge } from "@/components/ChallengeCard";
 import StatusBadge from "@/components/StatusBadge";
-import CreatureHeartbeat from "@/components/CreatureHeartbeat";
 
 // ── Mock data ─────────────────────────────────────────────────────────────────
 
@@ -65,53 +64,6 @@ export default function HomePage() {
         fontFamily: "inherit",
       }}
     >
-      {/* Top nav bar */}
-      <header
-        style={{
-          borderBottom: "1px solid #1a1a2e",
-          padding: "0 24px",
-          height: "52px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          position: "sticky",
-          top: 0,
-          background: "rgba(10,10,15,0.95)",
-          backdropFilter: "blur(8px)",
-          zIndex: 100,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <span
-            style={{
-              fontSize: "14px",
-              fontWeight: 700,
-              letterSpacing: "0.15em",
-              color: "#00ff88",
-            }}
-            className="glow-text animate-flicker"
-          >
-            THE CREATURE
-          </span>
-          <span
-            style={{
-              fontSize: "10px",
-              color: "#555566",
-              letterSpacing: "0.08em",
-            }}
-          >
-            / DASHBOARD
-          </span>
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <CreatureHeartbeat label="HUNTING" size={8} />
-          <span style={{ fontSize: "11px", color: "#555566" }}>
-            <span style={{ color: "#888899" }}>0G</span> MAINNET
-          </span>
-        </div>
-      </header>
-
       <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px 64px" }}>
 
         {/* ── Hero ──────────────────────────────────────────────────────── */}

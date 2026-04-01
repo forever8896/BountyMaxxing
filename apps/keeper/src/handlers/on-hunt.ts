@@ -163,8 +163,10 @@ Think step by step, then output ONLY the solution code.`,
     try {
       const rootHash = await this.deps.storage.uploadData(hunt.currentDraft);
       await this.emit(0, "system", `Draft stored on 0G Storage: ${rootHash}`);
-    } catch {
-      await this.emit(0, "system", "Failed to persist draft to 0G Storage (continuing anyway)");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error("0G Storage upload failed:", err);
+      await this.emit(0, "system", `Failed to persist draft to 0G Storage: ${msg} (continuing anyway)`);
     }
 
     // 3. Submit to Clankonomy

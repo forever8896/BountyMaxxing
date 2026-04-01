@@ -3,9 +3,11 @@ import GenomeViewer, { type Genome } from "@/components/GenomeViewer";
 
 // ── Data fetching ──────────────────────────────────────────────────────────────
 
+const KEEPER_BASE = process.env.KEEPER_URL || "http://localhost:3001";
+
 async function getGenome(): Promise<Genome | null> {
   try {
-    const res = await fetch("http://localhost:3001/genome", {
+    const res = await fetch(`${KEEPER_BASE}/genome`, {
       next: { revalidate: 15 },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);

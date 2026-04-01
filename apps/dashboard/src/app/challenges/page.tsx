@@ -20,9 +20,11 @@ interface KeeperChallenge {
 
 // ── Data fetching ──────────────────────────────────────────────────────────────
 
+const KEEPER_BASE = process.env.KEEPER_URL || "http://localhost:3001";
+
 async function getChallenges(): Promise<Challenge[]> {
   try {
-    const res = await fetch("http://localhost:3001/challenges", {
+    const res = await fetch(`${KEEPER_BASE}/challenges`, {
       next: { revalidate: 10 },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);

@@ -29,9 +29,11 @@ interface KeeperChallenge {
 
 // ── Data fetching ──────────────────────────────────────────────────────────────
 
+const KEEPER_BASE = process.env.KEEPER_URL || "http://localhost:3001";
+
 async function getHealth(): Promise<KeeperHealth | null> {
   try {
-    const res = await fetch("http://localhost:3001/health", {
+    const res = await fetch(`${KEEPER_BASE}/health`, {
       next: { revalidate: 10 },
     });
     if (!res.ok) return null;
@@ -43,7 +45,7 @@ async function getHealth(): Promise<KeeperHealth | null> {
 
 async function getChallenges(): Promise<Challenge[]> {
   try {
-    const res = await fetch("http://localhost:3001/challenges", {
+    const res = await fetch(`${KEEPER_BASE}/challenges`, {
       next: { revalidate: 10 },
     });
     if (!res.ok) return [];
@@ -324,7 +326,7 @@ export default async function HomePage() {
               trailing={<BlinkingCursor />}
             />
             <LiveThoughtStream
-              sseUrl="http://localhost:3001/thoughts"
+              sseUrl="/api/thoughts"
               maxHeight="480px"
             />
           </section>

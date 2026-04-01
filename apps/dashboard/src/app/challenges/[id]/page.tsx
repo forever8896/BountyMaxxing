@@ -28,9 +28,11 @@ interface KeeperChallenge {
 
 // ── Data fetching ──────────────────────────────────────────────────────────────
 
+const KEEPER_BASE = process.env.KEEPER_URL || "http://localhost:3001";
+
 async function getChallenge(id: string): Promise<KeeperChallenge | null> {
   try {
-    const res = await fetch(`http://localhost:3001/challenges/${id}`, {
+    const res = await fetch(`${KEEPER_BASE}/challenges/${id}`, {
       next: { revalidate: 10 },
     });
     if (!res.ok) return null;
@@ -251,7 +253,7 @@ export default async function ChallengeDetailPage({
               </span>
             </div>
             <LiveThoughtStream
-              sseUrl="http://localhost:3001/thoughts"
+              sseUrl="/api/thoughts"
               maxHeight="520px"
             />
           </div>

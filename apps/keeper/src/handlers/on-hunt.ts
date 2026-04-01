@@ -27,6 +27,8 @@ interface ActiveHunt {
   currentDraft: string;
   submissions: ClanSubmission[];
   iteration: number;
+  finishedAt?: number; // Timestamp when work completed (for cooldown)
+  bestScore?: number;
 }
 
 export class HuntLoop {
@@ -98,10 +100,20 @@ export class HuntLoop {
 
       if (bounties.length === 0) return;
 
-      // Work on bounties we haven't started yet (up to 3 concurrent)
+      // Work on bounties (skip if actively working or in cooldown)
+      const COOLDOWN_MS = 10 * 60 * 1000; // 10 min between retry rounds
       for (const bounty of bounties) {
         if (this.activeHunts.size >= 3) break;
-        if (this.activeHunts.has(bounty.id)) continue;
+
+        const existing = this.activeHunts.get(bounty.id);
+        if (existing) {
+          // Still actively working (no finishedAt) — skip
+          if (!existing.finishedAt) continue;
+          // In cooldown — skip
+          if (Date.now() - existing.finishedAt < COOLDOWN_MS) continue;
+          // Cooldown expired — allow retry
+          this.activeHunts.delete(bounty.id);
+        }
 
         // Start working on this bounty
         this.workOnBounty(bounty).catch((err) => {
@@ -118,16 +130,20 @@ export class HuntLoop {
    * Work on a single bounty: analyze → draft → submit → score → iterate.
    */
   private async workOnBounty(bounty: ClanBounty): Promise<void> {
+    const bid = bounty.id.slice(0, 8);
+    await this.emit(0, "system", `Starting work on: "${bounty.title}" [${bid}...]`);
+
+    // Fetch full bounty detail (includes evalSummary, allowedFileTypes, etc.)
+    const fullBounty = await this.deps.clan.getBounty(bounty.id);
+    const enriched = fullBounty ? { ...bounty, ...fullBounty } : bounty;
+
     const hunt: ActiveHunt = {
-      bounty,
+      bounty: enriched,
       currentDraft: "",
       submissions: [],
       iteration: 0,
     };
-    this.activeHunts.set(bounty.id, hunt);
-
-    const bid = bounty.id.slice(0, 8);
-    await this.emit(0, "system", `Starting work on: "${bounty.title}" [${bid}...]`);
+    this.activeHunts.set(enriched.id, hunt);
 
     // 1. Analyze the bounty
     const genome = this.deps.genome.load();
@@ -149,6 +165,9 @@ Generate a complete solution. The required file type is "${bounty.allowedFileTyp
 ${(bounty.allowedFileTypes?.[0] || "md") === "md" ? "Write your response as a well-structured MARKDOWN document. Do NOT wrap it in code fences." : "Your response should be ONLY the code, no markdown fences, no explanation before/after."}
 
 ${bounty.evalScript ? `\nEVAL SCRIPT (this is exactly how your submission will be tested):\n${bounty.evalScript}` : ""}
+${bounty.evalSummary ? `\nJUDGING CRITERIA (this is exactly what the evaluator looks for):\n${bounty.evalSummary}` : ""}
+
+The top score on this bounty is currently ${bounty.topScore ?? "unknown"}/100. Aim higher. Be specific, creative, and thorough.
 
 Think step by step, then output ONLY the solution code.`,
       },
@@ -247,7 +266,10 @@ Improve your solution based on the feedback. Output ONLY the improved code, no m
       }
     }
 
-    await this.emit(0, "system", `Finished working on "${hunt.bounty.title}" after ${hunt.iteration} iteration(s)`);
+    const bestScore = hunt.submissions.reduce((best, s) => Math.max(best, s.score ?? 0), 0);
+    hunt.bestScore = bestScore;
+    hunt.finishedAt = Date.now();
+    await this.emit(0, "system", `Finished round on "${hunt.bounty.title}" — ${hunt.iteration} iterations, best score: ${bestScore}/100. Will retry in 10 min.`);
   }
 
   /**

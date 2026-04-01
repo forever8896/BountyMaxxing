@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+/* ── Creature Theme Variables ────────────────────────────────────────── */
+:root {
+  --bg-base: #0a0a0f;
+  --bg-card: #12121a;
+  --bg-card-hover: #161620;
+  --border-subtle: #1a1a2e;
+  --border-dim: #222238;
+
+  --green-accent: #00ff88;
+  --green-dim: #00cc6a;
+  --green-glow: rgba(0, 255, 136, 0.15);
+  --green-glow-strong: rgba(0, 255, 136, 0.3);
+
+  --text-primary: #e8e8f0;
+  --text-secondary: #888899;
+  --text-dim: #555566;
+
+  --yellow-accent: #ffcc00;
+  --blue-accent: #4488ff;
+  --purple-accent: #bb66ff;
+}
+
+/* ── Base Reset ──────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Custom Scrollbar ────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-dim);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--green-dim);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-dim) var(--bg-base);
+}
+
+/* ── CRT / Scanline Overlay ──────────────────────────────────────────── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Keyframe Animations ─────────────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 4px var(--green-accent),
+      0 0 12px var(--green-glow),
+      0 0 24px var(--green-glow);
+    opacity: 1;
+  }
+  50% {
+    box-shadow:
+      0 0 8px var(--green-accent),
+      0 0 24px var(--green-glow-strong),
+      0 0 48px var(--green-glow);
+    opacity: 0.85;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes stream-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.85; }
+  97% { opacity: 1; }
+  98% { opacity: 0.9; }
+}
+
+@keyframes loop-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Utility Classes ─────────────────────────────────────────────────── */
+.glow-text {
+  text-shadow:
+    0 0 10px var(--green-accent),
+    0 0 20px var(--green-glow-strong),
+    0 0 40px var(--green-glow);
+}
+
+.glow-border {
+  border-color: var(--green-accent);
+  box-shadow: 0 0 8px var(--green-glow), inset 0 0 8px var(--green-glow);
+}
+
+.card-base {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+}
+
+.card-base:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-dim);
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+.animate-stream-in {
+  animation: stream-in 0.25s ease-out both;
+}
+
+.animate-blink {
+  animation: blink-cursor 1s step-end infinite;
+}
+
+.animate-flicker {
+  animation: flicker 8s linear infinite;
+}
+
+/* ── Terminal Panel ───────────────────────────────────────────────────── */
+.terminal-panel {
+  background: #0d0d14;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.terminal-panel:focus-within {
+  border-color: var(--green-dim);
+  box-shadow: 0 0 0 1px var(--green-glow);
+}

@@ -1,0 +1,26 @@
+{
+  "name": "the-creature",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A self-evolving, autonomous bounty-solving AI entity on 0G",
+  "keywords": ["0g", "ai-agent", "bounty", "self-evolving", "decentralized"],
+  "license": "MIT",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "test": "turbo test",
+    "deploy:contracts": "pnpm --filter @creature/contracts deploy",
+    "seed": "tsx scripts/seed-genome.ts",
+    "keeper": "pnpm --filter @creature/keeper start",
+    "dashboard": "pnpm --filter @creature/dashboard dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.4.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=22"
+  }
+}

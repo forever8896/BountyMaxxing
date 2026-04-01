@@ -213,7 +213,11 @@ export class ClanconomyClient {
       if (!res.ok) return null;
       const ct = res.headers.get("content-type") || "";
       if (!ct.includes("json")) return null;
-      return res.json() as Promise<ClanAgent>;
+      const data = await res.json();
+      // API wraps in { agent: {...} }
+      if (data && data.agent) return data.agent as ClanAgent;
+      if (data && data.walletAddress) return data as ClanAgent;
+      return null;
     } catch {
       return null;
     }

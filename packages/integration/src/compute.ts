@@ -79,8 +79,8 @@ export class CreatureCompute {
         try {
           const account = await this.broker.inference.getAccount(svc.providerAddress);
           const balance = parseFloat(ethers.formatEther(BigInt(account.balance)));
-          if (balance < 0.1) {
-            const amount = ethers.parseEther("0.1") - BigInt(account.balance);
+          if (balance < 0.3) {
+            const amount = ethers.parseEther("0.5") - BigInt(account.balance);
             await this.broker.ledger.transferFund(svc.providerAddress, "inference", amount);
           }
         } catch {
@@ -88,7 +88,7 @@ export class CreatureCompute {
           await this.broker.ledger.transferFund(
             svc.providerAddress,
             "inference",
-            ethers.parseEther("0.1")
+            ethers.parseEther("0.5")
           );
         }
       }

@@ -67,23 +67,24 @@ export default async function ChallengeDetailPage({
         : "—";
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0a0a0f", color: "#e8e8f0" }}>
+    <div style={{ minHeight: "100vh", background: "#FFFEF2", color: "#000000" }}>
       <main style={{ maxWidth: "1100px", margin: "0 auto", padding: "40px 24px 64px" }}>
 
         {/* Breadcrumb */}
         <div
           style={{
             fontSize: "10px",
-            color: "#555566",
+            color: "#000000",
+            fontWeight: 700,
             letterSpacing: "0.12em",
             marginBottom: "24px",
           }}
         >
-          <Link href="/" style={{ color: "#555566", textDecoration: "none" }}>HOME</Link>
+          <Link href="/" style={{ color: "#000000", textDecoration: "none", fontWeight: 700 }}>HOME</Link>
           {" / "}
-          <Link href="/challenges" style={{ color: "#555566", textDecoration: "none" }}>CHALLENGES</Link>
+          <Link href="/challenges" style={{ color: "#000000", textDecoration: "none", fontWeight: 700 }}>CHALLENGES</Link>
           {" / "}
-          <span style={{ color: "#888899" }}>{id.toUpperCase()}</span>
+          <span style={{ color: "#000000", fontWeight: 800 }}>{id.toUpperCase()}</span>
         </div>
 
         {/* Title row */}
@@ -102,8 +103,8 @@ export default async function ChallengeDetailPage({
               style={{
                 margin: "0 0 6px",
                 fontSize: "20px",
-                fontWeight: 700,
-                color: "#e8e8f0",
+                fontWeight: 800,
+                color: "#000000",
                 letterSpacing: "0.04em",
                 lineHeight: 1.3,
               }}
@@ -116,9 +117,9 @@ export default async function ChallengeDetailPage({
               rel="noopener noreferrer"
               style={{
                 fontSize: "11px",
-                color: "#4488ff",
+                color: "#5856D6",
                 textDecoration: "none",
-                opacity: 0.8,
+                fontWeight: 700,
               }}
             >
               {challenge.bountyUrl}
@@ -142,17 +143,18 @@ export default async function ChallengeDetailPage({
             {/* Info card */}
             <div
               style={{
-                background: "#12121a",
-                border: "1px solid #1a1a2e",
-                borderRadius: "4px",
+                background: "#FFFFFF",
+                border: "3px solid #000000",
+                borderRadius: 0,
                 padding: "20px",
+                boxShadow: "4px 4px 0px #000000",
               }}
             >
               <SectionLabel>DETAILS</SectionLabel>
               <dl style={{ margin: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
                 <Row label="CHALLENGE ID" value={id} mono />
                 <Row label="STATUS" value={status} />
-                <Row label="PRIZE" value={prize} accent="#00ff88" />
+                <Row label="PRIZE" value={prize} accent="#BFFF00" />
                 <Row label="FEE" value={challenge.fee ?? "—"} />
                 <Row label="NUDGES" value={String(challenge.nudgeCount ?? 0)} />
                 <Row label="REQUESTER" value={challenge.requester ?? "—"} mono />
@@ -164,10 +166,11 @@ export default async function ChallengeDetailPage({
             {challenge.description && (
               <div
                 style={{
-                  background: "#12121a",
-                  border: "1px solid #1a1a2e",
-                  borderRadius: "4px",
+                  background: "#FFFFFF",
+                  border: "3px solid #000000",
+                  borderRadius: 0,
                   padding: "20px",
+                  boxShadow: "4px 4px 0px #000000",
                 }}
               >
                 <SectionLabel>DESCRIPTION</SectionLabel>
@@ -175,8 +178,9 @@ export default async function ChallengeDetailPage({
                   style={{
                     margin: 0,
                     fontSize: "12px",
-                    color: "#888899",
+                    color: "#000000",
                     lineHeight: 1.6,
+                    fontWeight: 500,
                   }}
                 >
                   {challenge.description}
@@ -187,10 +191,11 @@ export default async function ChallengeDetailPage({
             {/* Nudge submission placeholder */}
             <div
               style={{
-                background: "#12121a",
-                border: "1px solid #1a1a2e",
-                borderRadius: "4px",
+                background: "#FFFFFF",
+                border: "3px solid #000000",
+                borderRadius: 0,
                 padding: "20px",
+                boxShadow: "4px 4px 0px #000000",
               }}
             >
               <SectionLabel>SUBMIT A NUDGE</SectionLabel>
@@ -198,27 +203,29 @@ export default async function ChallengeDetailPage({
                 style={{
                   margin: "0 0 12px",
                   fontSize: "11px",
-                  color: "#555566",
+                  color: "#000000",
                   lineHeight: 1.5,
+                  fontWeight: 500,
                 }}
               >
                 Upload your improvement suggestion to 0G Storage, then submit
-                the content hash on-chain to steer The Creature.
+                the content hash on-chain to steer BountyMaxxing.
               </p>
               <textarea
                 style={{
                   width: "100%",
                   boxSizing: "border-box",
-                  background: "#0d0d14",
-                  border: "1px solid #222238",
-                  borderRadius: "2px",
+                  background: "#FFFEF2",
+                  border: "3px solid #000000",
+                  borderRadius: 0,
                   padding: "10px 12px",
                   fontSize: "12px",
-                  color: "#888899",
+                  color: "#000000",
                   fontFamily: "inherit",
                   resize: "vertical",
                   outline: "none",
                   cursor: "not-allowed",
+                  fontWeight: 500,
                 }}
                 rows={4}
                 placeholder="Paste your improvement hint here..."
@@ -229,15 +236,17 @@ export default async function ChallengeDetailPage({
                 style={{
                   marginTop: "10px",
                   width: "100%",
-                  background: "#161620",
-                  border: "1px solid #222238",
-                  borderRadius: "2px",
+                  background: "#000000",
+                  border: "3px solid #000000",
+                  borderRadius: 0,
                   padding: "10px",
                   fontSize: "11px",
-                  color: "#555566",
+                  fontWeight: 800,
+                  color: "#555555",
                   fontFamily: "inherit",
                   letterSpacing: "0.08em",
                   cursor: "not-allowed",
+                  boxShadow: "3px 3px 0px #888888",
                 }}
                 disabled
                 aria-disabled="true"
@@ -248,8 +257,9 @@ export default async function ChallengeDetailPage({
                 style={{
                   margin: "8px 0 0",
                   fontSize: "10px",
-                  color: "#444455",
+                  color: "#000000",
                   textAlign: "center",
+                  fontWeight: 500,
                 }}
               >
                 Read-only dashboard — wallet integration coming soon
@@ -266,17 +276,16 @@ export default async function ChallengeDetailPage({
                 justifyContent: "space-between",
                 marginBottom: "12px",
                 paddingBottom: "10px",
-                borderBottom: "1px solid #1a1a2e",
+                borderBottom: "3px solid #000000",
               }}
             >
               <SectionLabel as="h2">THOUGHT STREAM</SectionLabel>
-              <span style={{ fontSize: "10px", color: "#555566" }}>
+              <span style={{ fontSize: "10px", color: "#000000", fontWeight: 600 }}>
                 filtered to challenge {id}
               </span>
             </div>
             <LiveThoughtStream
               sseUrl="http://localhost:3001/thoughts"
-              filterChallengeId={id}
               maxHeight="520px"
             />
           </div>
@@ -309,9 +318,9 @@ function SectionLabel({
       style={{
         margin: "0 0 14px",
         fontSize: "10px",
-        fontWeight: 700,
+        fontWeight: 800,
         letterSpacing: "0.15em",
-        color: "#555566",
+        color: "#000000",
       }}
     >
       {children}
@@ -332,17 +341,20 @@ function Row({
 }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", gap: "12px" }}>
-      <dt style={{ fontSize: "10px", color: "#555566", letterSpacing: "0.08em", flexShrink: 0 }}>
+      <dt style={{ fontSize: "10px", color: "#000000", fontWeight: 700, letterSpacing: "0.08em", flexShrink: 0 }}>
         {label}
       </dt>
       <dd
         style={{
           margin: 0,
           fontSize: "11px",
-          color: accent ?? "#c8c8d8",
+          fontWeight: 700,
+          color: "#000000",
           fontFamily: mono ? "inherit" : undefined,
           textAlign: "right",
           wordBreak: "break-all",
+          background: accent ?? "transparent",
+          padding: accent ? "0 4px" : undefined,
         }}
       >
         {value}

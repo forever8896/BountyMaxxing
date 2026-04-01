@@ -69,7 +69,7 @@ function groupByStatus(
 
 // ── Page ───────────────────────────────────────────────────────────────────────
 
-export const metadata = { title: "Challenges | The Creature" };
+export const metadata = { title: "Challenges | BountyMaxxing" };
 
 const STATUS_ORDER: ChallengeStatus[] = [
   "Working",
@@ -92,7 +92,7 @@ export default async function ChallengesPage() {
   const lost = challenges.filter((c) => c.status === "Lost").length;
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0a0a0f", color: "#e8e8f0" }}>
+    <div style={{ minHeight: "100vh", background: "#FFFEF2", color: "#000000" }}>
       <main style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 24px 64px" }}>
 
         {/* Breadcrumb + title */}
@@ -100,12 +100,13 @@ export default async function ChallengesPage() {
           <div
             style={{
               fontSize: "10px",
-              color: "#555566",
+              color: "#000000",
+              fontWeight: 700,
               letterSpacing: "0.12em",
               marginBottom: "10px",
             }}
           >
-            <Link href="/" style={{ color: "#555566", textDecoration: "none" }}>
+            <Link href="/" style={{ color: "#000000", textDecoration: "none", fontWeight: 700 }}>
               HOME
             </Link>
             {" / "}CHALLENGES
@@ -114,15 +115,15 @@ export default async function ChallengesPage() {
             style={{
               margin: 0,
               fontSize: "22px",
-              fontWeight: 700,
+              fontWeight: 800,
               letterSpacing: "0.1em",
-              color: "#e8e8f0",
+              color: "#000000",
             }}
           >
             CHALLENGES
           </h1>
-          <p style={{ margin: "6px 0 0", fontSize: "12px", color: "#555566" }}>
-            All bounty targets tracked by The Creature.
+          <p style={{ margin: "6px 0 0", fontSize: "12px", color: "#000000", fontWeight: 500 }}>
+            All bounty targets tracked by BountyMaxxing.
           </p>
         </div>
 
@@ -132,31 +133,33 @@ export default async function ChallengesPage() {
             display: "flex",
             flexWrap: "wrap",
             marginBottom: "36px",
-            border: "1px solid #1a1a2e",
-            borderRadius: "4px",
+            border: "3px solid #000000",
+            borderRadius: 0,
             overflow: "hidden",
+            boxShadow: "4px 4px 0px #000000",
           }}
         >
           {[
-            { label: "TOTAL", value: challenges.length, accent: "#888899" },
-            { label: "ACTIVE", value: active, accent: "#ffcc00" },
-            { label: "WON", value: won, accent: "#00ff88" },
-            { label: "LOST", value: lost, accent: "#ff4444" },
+            { label: "TOTAL", value: challenges.length, accent: null },
+            { label: "ACTIVE", value: active, accent: "#5856D6" },
+            { label: "WON", value: won, accent: "#BFFF00" },
+            { label: "LOST", value: lost, accent: "#FF3B30" },
           ].map((stat, idx, arr) => (
             <div
               key={stat.label}
               style={{
                 flex: "1 1 80px",
                 padding: "16px",
-                background: "#12121a",
+                background: "#FFFFFF",
                 textAlign: "center",
-                borderRight: idx < arr.length - 1 ? "1px solid #1a1a2e" : undefined,
+                borderRight: idx < arr.length - 1 ? "3px solid #000000" : undefined,
               }}
             >
               <div
                 style={{
                   fontSize: "9px",
-                  color: "#555566",
+                  color: "#000000",
+                  fontWeight: 700,
                   letterSpacing: "0.1em",
                   marginBottom: "6px",
                 }}
@@ -164,7 +167,14 @@ export default async function ChallengesPage() {
                 {stat.label}
               </div>
               <div
-                style={{ fontSize: "20px", fontWeight: 700, color: stat.accent }}
+                style={{
+                  fontSize: "20px",
+                  fontWeight: 800,
+                  color: "#000000",
+                  background: stat.accent ?? "transparent",
+                  display: "inline-block",
+                  padding: stat.accent ? "0 6px" : undefined,
+                }}
               >
                 {stat.value}
               </div>
@@ -178,19 +188,20 @@ export default async function ChallengesPage() {
             style={{
               padding: "48px 24px",
               textAlign: "center",
-              border: "1px solid #1a1a2e",
-              borderRadius: "4px",
-              background: "#12121a",
+              border: "3px solid #000000",
+              borderRadius: 0,
+              background: "#FFFFFF",
+              boxShadow: "4px 4px 0px #000000",
             }}
           >
             <div
-              style={{ fontSize: "20px", marginBottom: "12px", color: "#333344" }}
+              style={{ fontSize: "20px", marginBottom: "12px", color: "#000000", fontWeight: 800 }}
               aria-hidden="true"
             >
               [ ]
             </div>
-            <p style={{ margin: 0, fontSize: "12px", color: "#555566" }}>
-              No challenges found. The creature is scanning...
+            <p style={{ margin: 0, fontSize: "12px", color: "#000000", fontWeight: 600 }}>
+              No challenges found. BountyMaxxing is scanning...
             </p>
           </div>
         ) : (
@@ -207,16 +218,16 @@ export default async function ChallengesPage() {
                       gap: "10px",
                       marginBottom: "14px",
                       paddingBottom: "10px",
-                      borderBottom: "1px solid #1a1a2e",
+                      borderBottom: "3px solid #000000",
                     }}
                   >
                     <h2
                       style={{
                         margin: 0,
                         fontSize: "11px",
-                        fontWeight: 700,
+                        fontWeight: 800,
                         letterSpacing: "0.15em",
-                        color: "#e8e8f0",
+                        color: "#000000",
                       }}
                     >
                       {status.toUpperCase()}
@@ -224,17 +235,19 @@ export default async function ChallengesPage() {
                     <span
                       style={{
                         fontSize: "10px",
-                        color: "#555566",
+                        color: "#000000",
+                        fontWeight: 700,
                         padding: "1px 7px",
-                        border: "1px solid #1a1a2e",
-                        borderRadius: "2px",
+                        border: "2px solid #000000",
+                        borderRadius: 0,
+                        background: "#FFFFFF",
                       }}
                     >
                       {group.length}
                     </span>
                   </div>
 
-                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
                     {group.map((ch) => (
                       <Link
                         key={ch.id}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
+import Image from "next/image";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -10,12 +11,12 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Creature | 0G",
+  title: "BountyMaxxing | 0G",
   description:
     "An autonomous, self-evolving AI agent that hunts bounties on the 0G blockchain — drafts solutions, submits them on-chain, and rewrites its own genome based on wins and losses.",
-  keywords: ["0G", "AI agent", "bounty solver", "autonomous", "blockchain", "self-evolving"],
+  keywords: ["0G", "AI agent", "bounty solver", "autonomous", "blockchain", "self-evolving", "BountyMaxxing"],
   openGraph: {
-    title: "The Creature | 0G",
+    title: "BountyMaxxing | 0G",
     description: "Self-evolving autonomous bounty solver on 0G",
     type: "website",
   },
@@ -54,7 +55,7 @@ function Nav() {
       style={{
         borderBottom: "3px solid #000000",
         padding: "0 24px",
-        height: "52px",
+        height: "64px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -69,6 +70,7 @@ function Nav() {
         href="/"
         style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "12px" }}
       >
+        <Image src="/logo.png" alt="BountyMaxxing logo" width={48} height={48} style={{ objectFit: "contain" }} />
         <span
           style={{
             fontSize: "14px",
@@ -77,7 +79,7 @@ function Nav() {
             color: "#000000",
           }}
         >
-          THE CREATURE
+          BOUNTYMAXXING
         </span>
         <span
           style={{

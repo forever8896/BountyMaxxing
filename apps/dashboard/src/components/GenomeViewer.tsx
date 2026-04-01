@@ -44,9 +44,10 @@ export default function GenomeViewer({ genome }: GenomeViewerProps) {
           flexWrap: "wrap",
           gap: "12px",
           padding: "24px",
-          background: "rgba(0,255,136,0.03)",
-          border: "1px solid rgba(0,255,136,0.15)",
-          borderRadius: "4px",
+          background: "#BFFF00",
+          border: "3px solid #000000",
+          borderRadius: 0,
+          boxShadow: "6px 6px 0px #000000",
         }}
       >
         <div style={{ display: "flex", alignItems: "baseline", gap: "12px" }}>
@@ -54,22 +55,22 @@ export default function GenomeViewer({ genome }: GenomeViewerProps) {
             style={{
               fontSize: "40px",
               fontWeight: 800,
-              color: "#00ff88",
+              color: "#000000",
               letterSpacing: "-0.02em",
               lineHeight: 1,
             }}
-            className="glow-text"
           >
             GEN {genome.generation}
           </span>
-          <span style={{ fontSize: "12px", color: "#555566" }}>
+          <span style={{ fontSize: "12px", color: "#000000", fontWeight: 600 }}>
             / CURRENT
           </span>
         </div>
         <div
           style={{
             fontSize: "10px",
-            color: "#555566",
+            color: "#000000",
+            fontWeight: 700,
             letterSpacing: "0.08em",
           }}
         >
@@ -83,15 +84,16 @@ export default function GenomeViewer({ genome }: GenomeViewerProps) {
           style={{
             margin: 0,
             fontSize: "12px",
-            color: "#c8c8d8",
+            color: "#000000",
             fontFamily: "inherit",
             whiteSpace: "pre-wrap",
             lineHeight: 1.6,
-            background: "#0d0d14",
-            border: "1px solid #1a1a2e",
-            borderRadius: "2px",
+            background: "#FFFEF2",
+            border: "3px solid #000000",
+            borderRadius: 0,
             padding: "16px",
             overflowX: "auto",
+            fontWeight: 500,
           }}
         >
           {genome.systemPrompt}
@@ -119,19 +121,21 @@ export default function GenomeViewer({ genome }: GenomeViewerProps) {
                   gap: "10px",
                   alignItems: "flex-start",
                   fontSize: "12px",
-                  color: "#c8c8d8",
+                  color: "#000000",
                   lineHeight: 1.5,
                   paddingLeft: "12px",
-                  borderLeft: "2px solid rgba(0,255,136,0.3)",
+                  borderLeft: "3px solid #BFFF00",
+                  fontWeight: 500,
                 }}
               >
                 <span
                   style={{
                     flexShrink: 0,
                     fontSize: "10px",
-                    color: "#444455",
+                    color: "#000000",
                     paddingTop: "2px",
                     fontVariantNumeric: "tabular-nums",
+                    fontWeight: 700,
                   }}
                 >
                   {String(idx + 1).padStart(2, "0")}
@@ -169,9 +173,9 @@ export default function GenomeViewer({ genome }: GenomeViewerProps) {
               {genome.strengths.map((s, i) => (
                 <li
                   key={i}
-                  style={{ fontSize: "12px", color: "#c8c8d8", lineHeight: 1.4 }}
+                  style={{ fontSize: "12px", color: "#000000", lineHeight: 1.4, fontWeight: 500 }}
                 >
-                  <span style={{ color: "#00ff88", marginRight: "8px" }}>+</span>
+                  <span style={{ background: "#BFFF00", color: "#000000", marginRight: "8px", fontWeight: 800, padding: "0 3px" }}>+</span>
                   {s}
                 </li>
               ))}
@@ -196,9 +200,9 @@ export default function GenomeViewer({ genome }: GenomeViewerProps) {
               {genome.weaknesses.map((w, i) => (
                 <li
                   key={i}
-                  style={{ fontSize: "12px", color: "#c8c8d8", lineHeight: 1.4 }}
+                  style={{ fontSize: "12px", color: "#000000", lineHeight: 1.4, fontWeight: 500 }}
                 >
-                  <span style={{ color: "#ff4444", marginRight: "8px" }}>−</span>
+                  <span style={{ background: "#FF3B30", color: "#FFFFFF", marginRight: "8px", fontWeight: 800, padding: "0 3px" }}>−</span>
                   {w}
                 </li>
               ))}
@@ -218,9 +222,9 @@ export default function GenomeViewer({ genome }: GenomeViewerProps) {
                 <div
                   style={{
                     fontSize: "10px",
-                    fontWeight: 700,
+                    fontWeight: 800,
                     letterSpacing: "0.1em",
-                    color: "#4488ff",
+                    color: "#5856D6",
                     marginBottom: "4px",
                     textTransform: "uppercase",
                   }}
@@ -231,10 +235,11 @@ export default function GenomeViewer({ genome }: GenomeViewerProps) {
                   style={{
                     margin: 0,
                     fontSize: "12px",
-                    color: "#888899",
+                    color: "#000000",
                     lineHeight: 1.55,
                     paddingLeft: "12px",
-                    borderLeft: "1px solid #222238",
+                    borderLeft: "3px solid #5856D6",
+                    fontWeight: 500,
                   }}
                 >
                   {strategy}
@@ -266,19 +271,20 @@ function Panel({
   return (
     <section
       style={{
-        background: "#12121a",
-        border: "1px solid #1a1a2e",
-        borderRadius: "4px",
+        background: "#FFFFFF",
+        border: "3px solid #000000",
+        borderRadius: 0,
         padding: "20px",
+        boxShadow: "4px 4px 0px #000000",
       }}
     >
       <h2
         style={{
           margin: "0 0 16px",
           fontSize: "10px",
-          fontWeight: 700,
+          fontWeight: 800,
           letterSpacing: "0.15em",
-          color: "#555566",
+          color: "#000000",
         }}
       >
         {label}
@@ -290,7 +296,7 @@ function Panel({
 
 function EmptyNote({ children }: { children: React.ReactNode }) {
   return (
-    <p style={{ margin: 0, fontSize: "12px", color: "#444455", fontStyle: "italic" }}>
+    <p style={{ margin: 0, fontSize: "12px", color: "#000000", fontStyle: "italic", fontWeight: 500 }}>
       {children}
     </p>
   );

@@ -8,7 +8,7 @@ interface CreatureHeartbeatProps {
 }
 
 /**
- * A pulsing green dot with expanding ring animations.
+ * A solid black square indicator with a status label.
  * Indicates the creature process is alive and running.
  *
  * Usage:
@@ -24,50 +24,23 @@ export default function CreatureHeartbeat({
       role="status"
       aria-label={`Creature status: ${label}`}
     >
-      {/* Dot + rings container */}
+      {/* Solid square dot */}
       <span
-        className="relative inline-flex items-center justify-center"
-        style={{ width: size * 3, height: size * 3 }}
-      >
-        {/* Outer expanding ring */}
-        <span
-          className="absolute rounded-full"
-          style={{
-            width: size,
-            height: size,
-            backgroundColor: "transparent",
-            border: "1px solid #00ff88",
-            animation: "pulse-ring 2s cubic-bezier(0.2, 0.8, 0.4, 1) infinite",
-          }}
-        />
-        {/* Middle expanding ring — offset phase */}
-        <span
-          className="absolute rounded-full"
-          style={{
-            width: size,
-            height: size,
-            backgroundColor: "transparent",
-            border: "1px solid #00cc6a",
-            animation:
-              "pulse-ring 2s cubic-bezier(0.2, 0.8, 0.4, 1) 0.6s infinite",
-          }}
-        />
-        {/* Core dot */}
-        <span
-          className="relative rounded-full"
-          style={{
-            width: size,
-            height: size,
-            backgroundColor: "#00ff88",
-            animation: "pulse-glow 2.5s ease-in-out infinite",
-          }}
-        />
-      </span>
+        style={{
+          width: size,
+          height: size,
+          borderRadius: 0,
+          backgroundColor: "#000000",
+          display: "inline-block",
+          flexShrink: 0,
+        }}
+        aria-hidden="true"
+      />
 
       {label && (
         <span
           className="text-xs tracking-widest uppercase"
-          style={{ color: "#00ff88" }}
+          style={{ color: "#000000", fontWeight: 800 }}
         >
           {label}
         </span>

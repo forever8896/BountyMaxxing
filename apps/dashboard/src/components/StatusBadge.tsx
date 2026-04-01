@@ -22,49 +22,50 @@ interface StatusBadgeProps {
 
 const STATUS_CONFIG: Record<
   ChallengeStatus,
-  { label: string; color: string; bg: string; border: string }
+  { label: string; color: string; bg: string; border: string; textDecoration?: string }
 > = {
   Pending: {
     label: "PENDING",
-    color: "#888899",
-    bg: "rgba(136,136,153,0.08)",
-    border: "rgba(136,136,153,0.25)",
+    color: "#000000",
+    bg: "#FFFFFF",
+    border: "#000000",
   },
   Acknowledged: {
     label: "ACK'D",
-    color: "#aaaacc",
-    bg: "rgba(170,170,204,0.08)",
-    border: "rgba(170,170,204,0.25)",
+    color: "#000000",
+    bg: "#FFFFFF",
+    border: "#000000",
   },
   Working: {
     label: "WORKING",
-    color: "#ffcc00",
-    bg: "rgba(255,204,0,0.08)",
-    border: "rgba(255,204,0,0.3)",
+    color: "#FFFFFF",
+    bg: "#5856D6",
+    border: "#000000",
   },
   Submitted: {
     label: "SUBMITTED",
-    color: "#4488ff",
-    bg: "rgba(68,136,255,0.08)",
-    border: "rgba(68,136,255,0.3)",
+    color: "#FFFFFF",
+    bg: "#5856D6",
+    border: "#000000",
   },
   Won: {
     label: "WON",
-    color: "#00ff88",
-    bg: "rgba(0,255,136,0.08)",
-    border: "rgba(0,255,136,0.3)",
+    color: "#000000",
+    bg: "#BFFF00",
+    border: "#000000",
   },
   Lost: {
     label: "LOST",
-    color: "#ff4444",
-    bg: "rgba(255,68,68,0.08)",
-    border: "rgba(255,68,68,0.25)",
+    color: "#FFFFFF",
+    bg: "#FF3B30",
+    border: "#000000",
   },
   Cancelled: {
     label: "CANCELLED",
-    color: "#555566",
-    bg: "rgba(85,85,102,0.08)",
-    border: "rgba(85,85,102,0.2)",
+    color: "#000000",
+    bg: "#FFFFFF",
+    border: "#000000",
+    textDecoration: "line-through",
   },
 };
 
@@ -80,14 +81,15 @@ export default function StatusBadge({ status, size = "sm" }: StatusBadgeProps) {
         padding,
         fontSize,
         fontFamily: "inherit",
-        fontWeight: 600,
+        fontWeight: 800,
         letterSpacing: "0.08em",
         color: cfg.color,
         backgroundColor: cfg.bg,
-        border: `1px solid ${cfg.border}`,
-        borderRadius: "2px",
+        border: `3px solid ${cfg.border}`,
+        borderRadius: 0,
         lineHeight: 1.4,
         whiteSpace: "nowrap",
+        textDecoration: cfg.textDecoration,
       }}
       aria-label={`Status: ${status}`}
     >

@@ -22,34 +22,34 @@ const TYPE_CONFIG: Record<
   { color: string; bg: string; border: string }
 > = {
   HUNT: {
-    color: "#ffcc00",
-    bg: "rgba(255,204,0,0.1)",
-    border: "rgba(255,204,0,0.3)",
+    color: "#000000",
+    bg: "#BFFF00",
+    border: "#000000",
   },
   DRAFT: {
-    color: "#4488ff",
-    bg: "rgba(68,136,255,0.1)",
-    border: "rgba(68,136,255,0.3)",
+    color: "#FFFFFF",
+    bg: "#5856D6",
+    border: "#000000",
   },
   EVOLVE: {
-    color: "#bb66ff",
-    bg: "rgba(187,102,255,0.1)",
-    border: "rgba(187,102,255,0.3)",
+    color: "#FFFFFF",
+    bg: "#5856D6",
+    border: "#000000",
   },
   NUDGE: {
-    color: "#00ff88",
-    bg: "rgba(0,255,136,0.1)",
-    border: "rgba(0,255,136,0.3)",
+    color: "#000000",
+    bg: "#BFFF00",
+    border: "#000000",
   },
   SETTLE: {
-    color: "#ff8844",
-    bg: "rgba(255,136,68,0.1)",
-    border: "rgba(255,136,68,0.3)",
+    color: "#FFFFFF",
+    bg: "#5856D6",
+    border: "#000000",
   },
   ERROR: {
-    color: "#ff4444",
-    bg: "rgba(255,68,68,0.1)",
-    border: "rgba(255,68,68,0.3)",
+    color: "#FFFFFF",
+    bg: "#FF3B30",
+    border: "#000000",
   },
 };
 
@@ -75,7 +75,7 @@ export default function ThoughtStream({
       className="terminal-panel"
       style={{ overflowY: "auto", maxHeight }}
       role="log"
-      aria-label="Creature thought stream"
+      aria-label="Agent thought stream"
       aria-live="polite"
     >
       {thoughts.length === 0 && (
@@ -83,11 +83,12 @@ export default function ThoughtStream({
           style={{
             padding: "20px",
             textAlign: "center",
-            color: "#555566",
+            color: "#000000",
             fontSize: "12px",
+            fontWeight: 600,
           }}
         >
-          Waiting for creature activity...
+          Waiting for agent activity...
         </div>
       )}
 
@@ -121,26 +122,19 @@ function ThoughtEntry({
         alignItems: "flex-start",
         gap: "10px",
         padding: "8px 14px",
-        borderBottom: "1px solid rgba(26,26,46,0.5)",
-        transition: "background 0.15s",
-      }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLDivElement).style.background =
-          "rgba(255,255,255,0.02)";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLDivElement).style.background = "transparent";
+        borderBottom: "3px solid #000000",
       }}
     >
       {/* Timestamp */}
       <span
         style={{
           fontSize: "10px",
-          color: "#444455",
+          color: "#000000",
           whiteSpace: "nowrap",
           paddingTop: "1px",
           minWidth: "80px",
           fontVariantNumeric: "tabular-nums",
+          fontWeight: 600,
         }}
       >
         {formatTimestamp(thought.timestamp)}
@@ -153,12 +147,12 @@ function ThoughtEntry({
           flexShrink: 0,
           padding: "1px 6px",
           fontSize: "10px",
-          fontWeight: 700,
+          fontWeight: 800,
           letterSpacing: "0.08em",
           color: cfg.color,
           backgroundColor: cfg.bg,
-          border: `1px solid ${cfg.border}`,
-          borderRadius: "2px",
+          border: `2px solid ${cfg.border}`,
+          borderRadius: 0,
           lineHeight: 1.6,
         }}
       >
@@ -169,9 +163,10 @@ function ThoughtEntry({
       <span
         style={{
           fontSize: "12px",
-          color: "#c8c8d8",
+          color: "#000000",
           lineHeight: 1.5,
           flex: 1,
+          fontWeight: 500,
         }}
       >
         {thought.content}

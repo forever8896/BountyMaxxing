@@ -31,12 +31,12 @@ const TYPE_CONFIG: Record<
   ThoughtType,
   { color: string; bg: string; border: string }
 > = {
-  HUNT:   { color: "#ffcc00", bg: "rgba(255,204,0,0.1)",   border: "rgba(255,204,0,0.3)"   },
-  DRAFT:  { color: "#4488ff", bg: "rgba(68,136,255,0.1)",  border: "rgba(68,136,255,0.3)"  },
-  EVOLVE: { color: "#bb66ff", bg: "rgba(187,102,255,0.1)", border: "rgba(187,102,255,0.3)" },
-  NUDGE:  { color: "#00ff88", bg: "rgba(0,255,136,0.1)",   border: "rgba(0,255,136,0.3)"   },
-  SETTLE: { color: "#ff8844", bg: "rgba(255,136,68,0.1)",  border: "rgba(255,136,68,0.3)"  },
-  ERROR:  { color: "#ff4444", bg: "rgba(255,68,68,0.1)",   border: "rgba(255,68,68,0.3)"   },
+  HUNT:   { color: "#000000", bg: "#BFFF00",  border: "#000000" },
+  DRAFT:  { color: "#FFFFFF", bg: "#5856D6",  border: "#000000" },
+  EVOLVE: { color: "#FFFFFF", bg: "#5856D6",  border: "#000000" },
+  NUDGE:  { color: "#000000", bg: "#BFFF00",  border: "#000000" },
+  SETTLE: { color: "#000000", bg: "#FFFFFF",  border: "#000000" },
+  ERROR:  { color: "#FFFFFF", bg: "#FF3B30",  border: "#000000" },
 };
 
 const MAX_DISPLAYED = 120;
@@ -148,39 +148,39 @@ export default function LiveThoughtStream({
           alignItems: "center",
           gap: "8px",
           padding: "6px 14px",
-          background: "#0d0d14",
-          border: "1px solid #1a1a2e",
+          background: "#FFFFFF",
+          border: "3px solid #000000",
           borderBottom: "none",
-          borderRadius: "4px 4px 0 0",
+          borderRadius: 0,
           fontSize: "10px",
+          fontWeight: 700,
         }}
       >
         <span
           style={{
-            width: "6px",
-            height: "6px",
-            borderRadius: "50%",
-            background: connected ? "#00ff88" : "#555566",
+            width: "8px",
+            height: "8px",
+            borderRadius: 0,
+            background: connected ? "#BFFF00" : "#000000",
+            border: "2px solid #000000",
             flexShrink: 0,
-            ...(connected
-              ? { animation: "pulse-glow 2.5s ease-in-out infinite" }
-              : {}),
           }}
           aria-hidden="true"
         />
-        <span style={{ color: connected ? "#00cc6a" : "#555566" }}>
+        <span style={{ color: "#000000", fontWeight: 800 }}>
           {connected ? "LIVE" : "OFFLINE"}
         </span>
         {filterChallengeId && (
-          <span style={{ color: "#444455", marginLeft: "6px" }}>
+          <span style={{ color: "#000000", marginLeft: "6px", fontWeight: 600 }}>
             / CHALLENGE {filterChallengeId}
           </span>
         )}
         <span
           style={{
             marginLeft: "auto",
-            color: "#444455",
+            color: "#000000",
             fontVariantNumeric: "tabular-nums",
+            fontWeight: 600,
           }}
         >
           {thoughts.length} entries
@@ -193,12 +193,12 @@ export default function LiveThoughtStream({
         style={{
           overflowY: "auto",
           maxHeight,
-          borderRadius: "0 0 4px 4px",
-          border: "1px solid #1a1a2e",
-          borderTop: error ? "1px solid rgba(255,68,68,0.3)" : "1px solid #1a1a2e",
+          borderRadius: 0,
+          border: "3px solid #000000",
+          borderTop: error ? "3px solid #FF3B30" : "3px solid #000000",
         }}
         role="log"
-        aria-label="Live creature thought stream"
+        aria-label="Live agent thought stream"
         aria-live="polite"
         aria-relevant="additions"
       >
@@ -208,9 +208,11 @@ export default function LiveThoughtStream({
             style={{
               padding: "8px 14px",
               fontSize: "10px",
-              color: "#ff8844",
-              background: "rgba(255,136,68,0.06)",
-              borderBottom: "1px solid rgba(255,136,68,0.15)",
+              color: "#FFFFFF",
+              fontWeight: 700,
+              background: "#FF3B30",
+              border: "none",
+              borderBottom: "3px solid #000000",
             }}
           >
             {error}
@@ -222,12 +224,13 @@ export default function LiveThoughtStream({
             style={{
               padding: "24px",
               textAlign: "center",
-              color: "#555566",
+              color: "#000000",
               fontSize: "12px",
+              fontWeight: 600,
             }}
           >
-            <span className="animate-blink" aria-hidden="true">█</span>{" "}
-            Waiting for creature activity...
+            <span className="animate-blink" aria-hidden="true" style={{ background: "#000000", color: "#000000", display: "inline-block", width: "8px", height: "14px", verticalAlign: "middle" }}>█</span>{" "}
+            Waiting for agent activity...
           </div>
         )}
 
@@ -264,19 +267,20 @@ function ThoughtRow({
         alignItems: "flex-start",
         gap: "10px",
         padding: "8px 14px",
-        borderBottom: "1px solid rgba(26,26,46,0.5)",
+        borderBottom: "3px solid #000000",
       }}
     >
       {/* Timestamp */}
       <span
         style={{
           fontSize: "10px",
-          color: "#444455",
+          color: "#000000",
           whiteSpace: "nowrap",
           paddingTop: "1px",
           minWidth: "76px",
           fontVariantNumeric: "tabular-nums",
           flexShrink: 0,
+          fontWeight: 600,
         }}
       >
         {formatTimestamp(thought.timestamp)}
@@ -289,12 +293,12 @@ function ThoughtRow({
           flexShrink: 0,
           padding: "1px 6px",
           fontSize: "10px",
-          fontWeight: 700,
+          fontWeight: 800,
           letterSpacing: "0.08em",
           color: cfg.color,
           backgroundColor: cfg.bg,
-          border: `1px solid ${cfg.border}`,
-          borderRadius: "2px",
+          border: `2px solid ${cfg.border}`,
+          borderRadius: 0,
           lineHeight: 1.6,
           whiteSpace: "nowrap",
         }}
@@ -306,10 +310,11 @@ function ThoughtRow({
       <span
         style={{
           fontSize: "12px",
-          color: "#c8c8d8",
+          color: "#000000",
           lineHeight: 1.5,
           flex: 1,
           wordBreak: "break-word",
+          fontWeight: 500,
         }}
       >
         {thought.content}

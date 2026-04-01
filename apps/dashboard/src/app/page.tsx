@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ThoughtStream, { MOCK_THOUGHTS } from "@/components/ThoughtStream";
 import ChallengeCard, { type Challenge } from "@/components/ChallengeCard";
 import StatusBadge from "@/components/StatusBadge";
@@ -97,18 +98,39 @@ export default function HomePage() {
           </div>
 
           {/* Main title */}
-          <h1
+          <div
             style={{
-              fontSize: "clamp(36px, 8vw, 80px)",
-              fontWeight: 800,
-              letterSpacing: "0.12em",
-              color: "#000000",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "clamp(16px, 4vw, 40px)",
               margin: "0 0 16px",
-              lineHeight: 1,
             }}
           >
-            THE CREATURE
-          </h1>
+            <Image
+              src="/logo.png"
+              alt="BountyMaxxing logo"
+              width={300}
+              height={300}
+              style={{
+                objectFit: "contain",
+                width: "clamp(120px, 25vw, 300px)",
+                height: "clamp(120px, 25vw, 300px)",
+              }}
+            />
+            <h1
+              style={{
+                fontSize: "clamp(36px, 8vw, 80px)",
+                fontWeight: 800,
+                letterSpacing: "0.12em",
+                color: "#000000",
+                margin: 0,
+                lineHeight: 1,
+              }}
+            >
+              BOUNTYMAXXING
+            </h1>
+          </div>
 
           <p
             style={{
@@ -119,7 +141,7 @@ export default function HomePage() {
               fontWeight: 600,
             }}
           >
-            Self-evolving autonomous bounty solver on{" "}
+            Mog the clankers to oblivion on{" "}
             <span style={{ color: "#000000", background: "#BFFF00", padding: "0 4px" }}>0G</span>
           </p>
 
@@ -259,7 +281,7 @@ export default function HomePage() {
           <section>
             <SectionHeader
               title="THOUGHT STREAM"
-              subtitle="Real-time creature cognition"
+              subtitle="Real-time agent cognition"
               trailing={<BlinkingCursor />}
             />
             <ThoughtStream thoughts={MOCK_THOUGHTS} maxHeight="480px" />
@@ -404,7 +426,7 @@ export default function HomePage() {
         }}
       >
         <span>
-          THE CREATURE v0.1.0 — running on{" "}
+          BOUNTYMAXXING v0.1.0 — running on{" "}
           <span style={{ background: "#BFFF00", color: "#000000", padding: "0 4px", fontWeight: 800 }}>0G NETWORK</span>
         </span>
         <span style={{ margin: "0 12px", fontWeight: 300 }}>|</span>

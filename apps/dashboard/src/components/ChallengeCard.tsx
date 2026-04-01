@@ -50,7 +50,6 @@ export default function ChallengeCard({ challenge }: ChallengeCardProps) {
       className="card-base"
       style={{
         padding: "16px 20px",
-        transition: "border-color 0.2s, background 0.2s",
       }}
     >
       {/* Header row */}
@@ -59,8 +58,8 @@ export default function ChallengeCard({ challenge }: ChallengeCardProps) {
           style={{
             margin: 0,
             fontSize: "13px",
-            fontWeight: 600,
-            color: "#e8e8f0",
+            fontWeight: 700,
+            color: "#000000",
             letterSpacing: "0.02em",
             lineHeight: 1.4,
             flex: 1,
@@ -77,7 +76,7 @@ export default function ChallengeCard({ challenge }: ChallengeCardProps) {
           style={{
             margin: "8px 0 0",
             fontSize: "11px",
-            color: "#888899",
+            color: "#000000",
             lineHeight: 1.5,
           }}
         >
@@ -94,11 +93,10 @@ export default function ChallengeCard({ challenge }: ChallengeCardProps) {
           display: "block",
           marginTop: "10px",
           fontSize: "10px",
-          color: "#4488ff",
+          color: "#5856D6",
           textDecoration: "none",
           wordBreak: "break-all",
-          opacity: 0.8,
-          transition: "opacity 0.15s",
+          fontWeight: 600,
         }}
         title={bountyUrl}
         aria-label={`View bounty: ${title}`}
@@ -114,15 +112,15 @@ export default function ChallengeCard({ challenge }: ChallengeCardProps) {
           gap: "16px",
           marginTop: "14px",
           paddingTop: "12px",
-          borderTop: "1px solid #1a1a2e",
+          borderTop: "3px solid #000000",
         }}
       >
-        <Stat label="PRIZE" value={prize} accent="#00ff88" />
+        <Stat label="PRIZE" value={prize} accent="#BFFF00" />
         <Stat label="FEE" value={fee} />
         <Stat
           label="NUDGES"
           value={String(nudgeCount)}
-          accent={nudgeCount > 0 ? "#bb66ff" : undefined}
+          accent={nudgeCount > 0 ? "#5856D6" : undefined}
         />
         <Stat label="OPENED" value={formatDate(createdAt)} />
       </div>
@@ -142,15 +140,18 @@ function Stat({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
       <span
-        style={{ fontSize: "9px", color: "#555566", letterSpacing: "0.1em" }}
+        style={{ fontSize: "9px", color: "#000000", letterSpacing: "0.1em", fontWeight: 700 }}
       >
         {label}
       </span>
       <span
         style={{
           fontSize: "12px",
-          fontWeight: 600,
-          color: accent ?? "#888899",
+          fontWeight: 800,
+          color: "#000000",
+          background: accent ?? "transparent",
+          padding: accent ? "1px 4px" : undefined,
+          display: "inline-block",
         }}
       >
         {value}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import StatusBadge, { type ChallengeStatus } from "@/components/StatusBadge";
 import LiveThoughtStream from "@/components/LiveThoughtStream";
+import NudgeForm from "@/components/NudgeForm";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -13,6 +14,13 @@ interface KeeperChallenge {
   prizeAmount?: string;
   fee?: string;
   nudgeCount?: number;
+  iterations?: number;
+  platformSubmissions?: number;
+  evalType?: string;
+  evalSummary?: string;
+  deadline?: string;
+  numWinners?: number;
+  currentDraft?: string;
   createdAt?: string | number;
   description?: string;
   title?: string;
@@ -188,6 +196,7 @@ export default async function ChallengeDetailPage({
                 <Row label="STATUS" value={status} />
                 <Row label="PRIZE" value={prize} accent="#BFFF00" />
                 <Row label="FEE" value={challenge.fee ?? "—"} />
+                <Row label="ITERATIONS" value={String(challenge.iterations ?? 0)} />
                 <Row label="NUDGES" value={String(challenge.nudgeCount ?? 0)} />
                 <Row label="REQUESTER" value={challenge.requester ?? "—"} mono />
                 <Row label="OPENED" value={createdAt} />
@@ -220,83 +229,8 @@ export default async function ChallengeDetailPage({
               </div>
             )}
 
-            {/* Nudge submission placeholder */}
-            <div
-              style={{
-                background: "#FFFFFF",
-                border: "3px solid #000000",
-                borderRadius: 0,
-                padding: "20px",
-                boxShadow: "4px 4px 0px #000000",
-              }}
-            >
-              <SectionLabel>SUBMIT A NUDGE</SectionLabel>
-              <p
-                style={{
-                  margin: "0 0 12px",
-                  fontSize: "11px",
-                  color: "#000000",
-                  lineHeight: 1.5,
-                  fontWeight: 500,
-                }}
-              >
-                Upload your improvement suggestion to 0G Storage, then submit
-                the content hash on-chain to steer BountyMaxxing.
-              </p>
-              <textarea
-                style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                  background: "#FFFEF2",
-                  border: "3px solid #000000",
-                  borderRadius: 0,
-                  padding: "10px 12px",
-                  fontSize: "12px",
-                  color: "#000000",
-                  fontFamily: "inherit",
-                  resize: "vertical",
-                  outline: "none",
-                  cursor: "not-allowed",
-                  fontWeight: 500,
-                }}
-                rows={4}
-                placeholder="Paste your improvement hint here..."
-                disabled
-                aria-label="Nudge input (read-only dashboard)"
-              />
-              <button
-                style={{
-                  marginTop: "10px",
-                  width: "100%",
-                  background: "#000000",
-                  border: "3px solid #000000",
-                  borderRadius: 0,
-                  padding: "10px",
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  color: "#555555",
-                  fontFamily: "inherit",
-                  letterSpacing: "0.08em",
-                  cursor: "not-allowed",
-                  boxShadow: "3px 3px 0px #888888",
-                }}
-                disabled
-                aria-disabled="true"
-              >
-                CONNECT WALLET TO NUDGE
-              </button>
-              <p
-                style={{
-                  margin: "8px 0 0",
-                  fontSize: "10px",
-                  color: "#000000",
-                  textAlign: "center",
-                  fontWeight: 500,
-                }}
-              >
-                Read-only dashboard — wallet integration coming soon
-              </p>
-            </div>
+            {/* Nudge form */}
+            <NudgeForm bountyId={id} />
           </div>
 
           {/* Right column: thought stream */}

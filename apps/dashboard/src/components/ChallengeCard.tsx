@@ -10,6 +10,7 @@ export interface Challenge {
   /** Fee paid to enter in OG */
   fee: string;
   nudgeCount: number;
+  iterations?: number;
   createdAt: string;
   /** Optional brief description */
   description?: string;
@@ -40,7 +41,7 @@ export default function ChallengeCard({ challenge }: ChallengeCardProps) {
     bountyUrl,
     prize,
     fee,
-    nudgeCount,
+    iterations,
     createdAt,
     description,
   } = challenge;
@@ -118,9 +119,9 @@ export default function ChallengeCard({ challenge }: ChallengeCardProps) {
         <Stat label="PRIZE" value={prize} accent="#BFFF00" />
         <Stat label="FEE" value={fee} />
         <Stat
-          label="NUDGES"
-          value={String(nudgeCount)}
-          accent={nudgeCount > 0 ? "#5856D6" : undefined}
+          label="ITERATIONS"
+          value={String(iterations ?? 0)}
+          accent={(iterations ?? 0) > 0 ? "#5856D6" : undefined}
         />
         <Stat label="OPENED" value={formatDate(createdAt)} />
       </div>
